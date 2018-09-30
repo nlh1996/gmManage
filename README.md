@@ -1,6 +1,6 @@
-# demo
+# gmManage
 
-> A Vue.js project
+> A background management web application used vue and element.
 
 ## Build Setup
 
