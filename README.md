@@ -1,4 +1,4 @@
-# demo
+# gmManage
 
 > A background management web application used vue and element.
 
