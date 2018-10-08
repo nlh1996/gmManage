@@ -37,7 +37,7 @@
             </el-form>
             </el-col>
             <el-col :span="10">
-                <el-button style="margin-top:90px">添加服务器</el-button>
+                <el-button style="margin-top:90px"><strong>添加服务器</strong></el-button>
             </el-col>
         </div>
 
@@ -61,9 +61,8 @@
                     id: '',
                     name: '',
                     time: '',
-                    way: '',
                     data: '',
-                    time: ''
+                    way: '',
                 },
                 tableData: [
 
@@ -90,6 +89,10 @@
     float: left;
     font-size: 24px;
     font-weight: bold;
+}
+.table{
+    margin: 0 auto;
+    width: 520px;
 }
     
 </style>

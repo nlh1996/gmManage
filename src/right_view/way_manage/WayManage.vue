@@ -1,19 +1,18 @@
 <template>
-    <div class="view">
-        <el-row>
-            <el-col :span="4" class="text">渠道管理</el-col>
+    <div class="way">
+        <div class="head">
+            <div class="text">渠道管理</div>
             
-            <el-col :span="20">
-                <span class="text">输入查找</span>
-                    <el-autocomplete
+            <div class="search">
+                <span>输入查找</span>
+                <el-autocomplete
                     v-model="form1.name"
                     :fetch-suggestions="querySearchAsync"
                     placeholder="请输入内容"
                     @select="handleSelect">
-                    </el-autocomplete>
-            </el-col>
-        </el-row>
-
+                </el-autocomplete>
+            </div>
+        </div>
         <div class="form1">
             <el-form :inline="true" :model="form1" label-width="100px" label-position="left">
                 <el-row>
@@ -94,8 +93,8 @@
       return {
         options: [],
         pickerOptions: {
-          disabledDate(time) {
-          return time.getTime() > Date.now();
+            disabledDate(time) {
+            return time.getTime() > Date.now();
           },
         shortcuts: [{
             text: '今天',
@@ -105,16 +104,16 @@
         }, {
             text: '昨天',
             onClick(picker) {
-              const date = new Date();
-              date.setTime(date.getTime() - 3600 * 1000 * 24);
-              picker.$emit('pick', date);
+                const date = new Date();
+                date.setTime(date.getTime() - 3600 * 1000 * 24);
+                picker.$emit('pick', date);
             }
         }, {
             text: '一周前',
             onClick(picker) {
-              const date = new Date();
-              date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
-              picker.$emit('pick', date);
+                const date = new Date();
+                date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
+                picker.$emit('pick', date);
             }
         }],
         },
@@ -157,16 +156,17 @@
 
             clearTimeout(this.timeout);
             this.timeout = setTimeout(() => {
-            cb(results);
-            }, 1000 * Math.random());
+                cb(results);
+            }, 1000);
         },
         createStateFilter(queryString) {
             return (form1) => {
-            return (form1.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
+                return (form1.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
             };
         },
         handleSelect(item) {
-            console.log(item);
+            this.form1.id = item.id
+            //console.log(item);
         }
         },        
         submitForm(formName) {
@@ -176,16 +176,29 @@
 </script>
 
 <style scoped>
-.view{
-    padding: 40px;
+.head{
+  background-color: rgb(120, 144, 156);
+  height: 80px;
+
+}
+
+.text{
+  margin: 20px;
+  float: left;
+  font-size: 24px;
+  font-weight: bold;
+}
+.search{
+  margin: 20px;
+  float: right;
 }
 .form1{
-    margin: 40px;
     padding: 30px;
     background-color:rgb(38, 166, 154)
 }
 .form2{
+
     width: 40%;
-    margin: 0 auto;
+    margin: 100px auto;
 }
 </style>

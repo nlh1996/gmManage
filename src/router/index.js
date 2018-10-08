@@ -4,6 +4,7 @@ import goodsManage from '@/right_view/goods_manage/GoodsManage'
 import playerManage from '@/right_view/player_manage/PlayerManage'
 import wayManage from '@/right_view/way_manage/WayManage'
 import openService from '@/right_view/open_service/OpenService'
+import giftManage from '@/right_view/gift_manage/GiftManage'
 Vue.use(Router)
 
 export default new Router({
@@ -28,7 +29,12 @@ export default new Router({
       path: '/openService',
       name: 'openService',
       component: openService
-    }
+    },
+    {
+      path: '/giftManage',
+      name: 'giftManage',
+      component: giftManage
+    },    
  
   ],
   scrollBehavior (to, from, savedPosition) {

@@ -32,8 +32,8 @@ export default {
     }
   },
   components: {
-      headMenu,
-      leftMenu,
+    headMenu,
+    leftMenu,
   }
 }
 </script>
@@ -79,4 +79,8 @@ export default {
   height: 100%;
 }
 
+.el-form-item__label{
+  font-size: 16px;
+  color: black; 
+}
 </style>
