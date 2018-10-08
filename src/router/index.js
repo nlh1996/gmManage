@@ -5,6 +5,7 @@ import playerManage from '@/right_view/player_manage/PlayerManage'
 import wayManage from '@/right_view/way_manage/WayManage'
 import openService from '@/right_view/open_service/OpenService'
 import giftManage from '@/right_view/gift_manage/GiftManage'
+import emailManage from '@/right_view/email_manage/EmailManage'
 Vue.use(Router)
 
 export default new Router({
@@ -34,7 +35,12 @@ export default new Router({
       path: '/giftManage',
       name: 'giftManage',
       component: giftManage
-    },    
+    },
+    {
+      path: '/emailManage',
+      name: 'emailManage',
+      component: emailManage
+    },      
  
   ],
   scrollBehavior (to, from, savedPosition) {

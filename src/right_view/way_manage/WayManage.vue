@@ -18,24 +18,24 @@
                 <el-row>
                     <el-col :span="12">
                         <el-form-item label="渠道ID:">
-                            <el-input v-model="form1.id"  style="width: 160px;"></el-input>
+                            <el-input v-model="form1.id"  style="width: 220px;"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="渠道名称:">
-                            <el-input v-model="form1.name"  style="width: 160px;"></el-input>
+                            <el-input v-model="form1.name"  style="width: 220px;"></el-input>
                         </el-form-item>                        
                     </el-col>
                 </el-row>
                 <el-row>
                     <el-col :span="12">
                         <el-form-item label="联系人姓名:">
-                            <el-input v-model="form1.linkmanName"  style="width: 160px;"></el-input>
+                            <el-input v-model="form1.linkmanName"  style="width: 220px;"></el-input>
                         </el-form-item>                        
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="联系人电话:">
-                            <el-input v-model="form1.linkmanPhone"  style="width: 160px;"></el-input>
+                            <el-input v-model="form1.linkmanPhone"  style="width: 220px;"></el-input>
                         </el-form-item>                        
                     </el-col>
                 </el-row>
@@ -59,16 +59,16 @@
             <h2>添加渠道</h2>
             <el-form :inline="false" :model="form2" label-width="100px"  label-position="left" size="small">
                 <el-form-item label="渠道ID:">
-                    <el-input v-model="form2.id"  style="width: 200px;"></el-input>
+                    <el-input v-model="form2.id"  style="width:220px"></el-input>
                 </el-form-item> 
                 <el-form-item label="渠道名称:">
-                    <el-input v-model="form2.name"  style="width: 200px;"></el-input>
+                    <el-input v-model="form2.name"  style="width: 220px;"></el-input>
                 </el-form-item>   
                 <el-form-item label="联系人姓名:">
-                    <el-input v-model="form2.linkmanName"  style="width: 200px;"></el-input>
+                    <el-input v-model="form2.linkmanName"  style="width: 220px;"></el-input>
                 </el-form-item>   
                 <el-form-item label="联系人电话:">
-                    <el-input v-model="form2.linkmanPhone"  style="width: 200px;"></el-input>
+                    <el-input v-model="form2.linkmanPhone"  style="width: 220px;"></el-input>
                 </el-form-item>  
                 <el-form-item label="上线日期:">
                     <el-date-picker

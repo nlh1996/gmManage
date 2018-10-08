@@ -25,7 +25,7 @@
             <!-- <i class="el-icon-setting"></i> -->
             <span slot="title">礼包管理</span>
         </el-menu-item>
-        <el-menu-item index="5">
+        <el-menu-item index="/emailManage">
             <!-- <i class="el-icon-setting"></i> -->
             <span slot="title">邮件管理</span>
         </el-menu-item>
