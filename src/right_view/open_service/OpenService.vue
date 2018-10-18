@@ -28,7 +28,7 @@
                         step: '00:15',
                         end: '18:30'
                     }"
-                placeholder="选择时间">
+                    placeholder="选择时间">
                 </el-time-select>
               </el-form-item>           
               <el-form-item label="渠道管理:">

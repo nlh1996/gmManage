@@ -39,7 +39,6 @@ export default {
 </script>
 
 <style>
-
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -62,7 +61,6 @@ export default {
   padding: 0px;
   margin: 0px;
   height: 900px;
-
 }
 
 .left-menu{
@@ -82,5 +80,9 @@ export default {
 .el-form-item__label{
   font-size: 16px;
   color: black; 
+}
+.el-menu-item{
+  font-size: 18px;
+  font-weight: bold;
 }
 </style>

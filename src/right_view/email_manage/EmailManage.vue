@@ -48,21 +48,21 @@
           <el-col :span="8">
               <el-form-item label="定时发送:">
                 <el-date-picker
-                    style="width:180px"
-                    v-model="form.data"
-                    type="date"
-                    placeholder="选择日期">
+                  style="width:180px"
+                  v-model="form.data"
+                  type="date"
+                  placeholder="选择日期">
                 </el-date-picker>
                 
                 <el-time-select
-                    style="width:180px;"
-                    v-model="form.time"
-                    :picker-options="{
-                        start: '08:30',
-                        step: '00:15',
-                        end: '18:30'
-                    }"
-                placeholder="选择时间">
+                  style="width:180px;"
+                  v-model="form.time"
+                  :picker-options="{
+                    start: '08:30',
+                    step: '00:15',
+                    end: '18:30'
+                  }"
+                  placeholder="选择时间">
                 </el-time-select>
               </el-form-item>
           </el-col>

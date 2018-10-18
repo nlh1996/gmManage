@@ -171,7 +171,7 @@
 </script>
  actions<style scoped>
   .player{
-    padding: 40px;
+    padding: 30px;
   }
   .text{
       margin-left: 130px;
@@ -180,12 +180,12 @@
       font-weight: bold;
   }
   .table1{
-    margin: 20px auto;
+    margin: 10px auto;
     width: 615px;
   }
   .table2{
-    margin: 20px auto;
-    width: 940px;
+    margin: 10px auto;
+    width: 80%;
   }
 
   hr {

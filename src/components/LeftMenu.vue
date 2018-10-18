@@ -6,7 +6,6 @@
         class="el-menu-vertical-demo"
         active-text-color="#409eff">
         <el-menu-item index="/playerManage">
-            <!-- <i class="el-icon-setting"></i> -->
             <span slot="title">玩家管理</span>
         </el-menu-item>
         <el-menu-item index="/goodsManage">
@@ -34,12 +33,20 @@
             <span slot="title">激活码管理</span>
         </el-menu-item>
         </el-menu>
+        <!-- <div>
+            <vue-star animate="animated bounceIn" color="#F05654">
+                <i class="el-icon-setting" slot="icon"></i>
+            </vue-star>
+        </div> -->
     </div>
 </template>
 
 <script>
+import VueStar from 'vue-star'
     export default {
-        
+        components: {
+            VueStar
+        }
     }
 </script>
 
