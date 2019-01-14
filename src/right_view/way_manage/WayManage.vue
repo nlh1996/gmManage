@@ -1,91 +1,96 @@
 <template>
-    <div class="way">
-        <div class="head">
-            <div class="text">渠道管理</div>
-            
-            <div class="search">
-                <span>输入查找</span>
-                <el-autocomplete
-                    v-model="form1.name"
-                    :fetch-suggestions="querySearchAsync"
-                    placeholder="请输入内容"
-                    @select="handleSelect">
-                </el-autocomplete>
-            </div>
-        </div>
-        <div class="form1">
-            <el-form :inline="true" :model="form1" label-width="100px" label-position="left">
-                <el-row>
-                    <el-col :span="12">
-                        <el-form-item label="渠道ID:">
-                            <el-input v-model="form1.id"  style="width: 220px;"></el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="12">
-                        <el-form-item label="渠道名称:">
-                            <el-input v-model="form1.name"  style="width: 220px;"></el-input>
-                        </el-form-item>                        
-                    </el-col>
-                </el-row>
-                <el-row>
-                    <el-col :span="12">
-                        <el-form-item label="联系人姓名:">
-                            <el-input v-model="form1.linkmanName"  style="width: 220px;"></el-input>
-                        </el-form-item>                        
-                    </el-col>
-                    <el-col :span="12">
-                        <el-form-item label="联系人电话:">
-                            <el-input v-model="form1.linkmanPhone"  style="width: 220px;"></el-input>
-                        </el-form-item>                        
-                    </el-col>
-                </el-row>
-                <el-row>
-                    <el-col :span="24">
-                        <el-form-item label="上线日期:">
-                            <el-date-picker
-                                v-model="form1.data"
-                                align="left"
-                                type="date"
-                                placeholder="选择日期">
-                            </el-date-picker>
-                        </el-form-item>                        
-                    </el-col>
-                </el-row>
-            </el-form>
-        </div>
-
-        <div class="form2">
-            <h2>添加渠道</h2>
-            <el-form :inline="false" :model="form2" label-width="100px"  label-position="left" size="small">
-                <el-form-item label="渠道ID:">
-                    <el-input v-model="form2.id"  style="width:220px"></el-input>
-                </el-form-item> 
-                <el-form-item label="渠道名称:">
-                    <el-input v-model="form2.name"  style="width: 220px;"></el-input>
-                </el-form-item>   
-                <el-form-item label="联系人姓名:">
-                    <el-input v-model="form2.linkmanName"  style="width: 220px;"></el-input>
-                </el-form-item>   
-                <el-form-item label="联系人电话:">
-                    <el-input v-model="form2.linkmanPhone"  style="width: 220px;"></el-input>
-                </el-form-item>  
-                <el-form-item label="上线日期:">
-                    <el-date-picker
-                        v-model="form2.data"
-                        align="left"
-                        type="date"
-                        placeholder="选择日期">
-                    </el-date-picker>
-                </el-form-item> 
-                <el-form-item>
-                    <el-button @click="submitForm('form2')" size="medium">确定</el-button>
-                </el-form-item>                
-            </el-form>
-        </div>
+  <div class="way">
+    <div class="head">
+      <div class="text">渠道管理</div>
+      
+      <div class="search">
+        <span>输入查找</span>
+        <el-select v-model="selectValue" :change="filter(selectValue)" placeholder="请选择渠道" class="select">
+          <el-option
+            v-for="item in restaurants"
+            :key="item.Id"
+            :label="item.Name"
+            :value="item.Name">
+          </el-option>
+        </el-select>
+      </div>
     </div>
+    <div class="form1">
+      <el-form :inline="true" :model="form1" label-width="100px" label-position="left">
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="渠道ID:">
+              <el-input v-model="form1.Id"  style="width: 220px;"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="渠道名称:">
+              <el-input v-model="form1.Name"  style="width: 220px;"></el-input>
+            </el-form-item>                        
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="联系人姓名:">
+              <el-input v-model="form1.LinkmanName"  style="width: 220px;"></el-input>
+            </el-form-item>                        
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="联系人电话:">
+              <el-input v-model="form1.LinkmanPhone"  style="width: 220px;"></el-input>
+            </el-form-item>                        
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="24">
+            <el-form-item label="上线日期:">
+              <el-date-picker
+                v-model="form1.Data"
+                align="left"
+                type="date"
+                value-format="yyyy-MM-dd"
+                placeholder="选择日期">
+              </el-date-picker>
+            </el-form-item>                        
+          </el-col>
+        </el-row>
+      </el-form>
+    </div>
+
+    <div class="form2">
+      <h2>添加渠道</h2>
+      <el-form :inline="false" :model="form2" label-width="100px"  label-position="left" size="small">
+        <el-form-item label="渠道ID:">
+          <el-input v-model.number="form2.id"  style="width:220px"></el-input>
+        </el-form-item> 
+        <el-form-item label="渠道名称:">
+          <el-input v-model="form2.name"  style="width: 220px;"></el-input>
+        </el-form-item>   
+        <el-form-item label="联系人姓名:">
+          <el-input v-model="form2.linkmanName"  style="width: 220px;"></el-input>
+        </el-form-item>   
+        <el-form-item label="联系人电话:">
+          <el-input v-model="form2.linkmanPhone"  style="width: 220px;"></el-input>
+        </el-form-item>  
+        <el-form-item label="上线日期:">
+          <el-date-picker
+            v-model="form2.data"
+            align="left"
+            type="date"
+            value-format="yyyy-MM-dd"
+            placeholder="选择日期">
+          </el-date-picker>
+        </el-form-item> 
+        <el-form-item>
+          <el-button @click="submit" size="medium">确定</el-button>
+        </el-form-item>                
+      </el-form>
+    </div>
+  </div>
 </template>
 
 <script>
+import axios from '../../http';
   export default {
     data() {
       return {
@@ -96,60 +101,59 @@
           },
         },
         form1: {
-            id: '',
-            name: '',
-            linkmanName: '',
-            linkmanPhone: '',
-            data: ''
+          Id: '',
+          Name: '',
+          LinkmanName: '',
+          LinkmanPhone: '',
+          Data: ''
         },
         form2: {
-            id: '',
-            name: '',
-            linkmanName: '',
-            linkmanPhone: '',
-            data: ''
+          id: '',
+          name: '',
+          linkmanName: '',
+          linkmanPhone: '',
+          data: '',
         },
         options: [],
         value: [],
         list: [],
         loading: false,
         restaurants: [],
-        timeout: null
+        timeout: null,
+        selectValue: ''
       }
     },
     mounted() {
-        this.restaurants = this.loadAll()
+      axios.get('/getChannels').then(
+        res => {
+          if(res.status == 200) {
+            this.restaurants = res.data
+            console.log(res.data)
+          }
+        }
+      )
     },
     methods: {
-        loadAll() {
-            return [
-                {"id":"1","value":"小明"},
-                {"id":"2","value":"小张"},
-                {"id":"3","value":"大三"}
-            ]
-        },
-        querySearchAsync(queryString, cb) {
-            var restaurants = this.restaurants;
-            var results = queryString ? restaurants.filter(this.createStateFilter(queryString)) : restaurants;
-
-            clearTimeout(this.timeout);
-            this.timeout = setTimeout(() => {
-                cb(results);
-            }, 1000);
-        },
-        createStateFilter(queryString) {
-            return (form1) => {
-                return (form1.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
-            };
-        },
-        handleSelect(item) {
-            this.form1.id = item.id
-            //console.log(item);
+      submit() {
+        axios.post('/addChannel', this.form2).then(
+          res => {
+            if(res.status == 200) {
+              console.log(res.data)
+            }
+          }
+        )
+      },
+      filter(v) {
+        for(let i=0;i<this.restaurants.length;i++) {
+          if(this.restaurants[i].Name = v) {
+            this.form1 = this.restaurants[i]
+            console.log( this.form1)
+            return
+          }
         }
-        },        
-        submitForm(formName) {
-            console.log("添加成功")
-        },
+      }
+    },        
+
 }
 </script>
 
