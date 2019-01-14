@@ -43,17 +43,17 @@
 
 <script>
 import VueStar from 'vue-star'
-  export default {
-    components: {
-      VueStar
+    export default {
+        components: {
+            VueStar
+        }
     }
-  }
 </script>
 
 <style scoped>
 .el-menu-vertical-demo{
-  height: 100%;
-  background-color: #E6E6E6;
+    height: 100%;
+    background-color: #E6E6E6;
 }
 
 </style>

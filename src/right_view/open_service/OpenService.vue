@@ -4,41 +4,42 @@
       <div class="text">开服管理</div>
     </div>
     <div class="form">
-      <el-row>
-        <el-select v-model="form.channel" placeholder="请选择渠道" class="select">
-          <el-option
-            v-for="item in options"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value">
-          </el-option>
-        </el-select>
-      </el-row>
       <el-col :span="14">
       <el-form :model="form" label-position="left" label-width="100px">
+        <el-form-item label="选择渠道:">
+          <el-select v-model="form.ChannelName" :change="filter(form.ChannelName)" placeholder="请选择渠道" class="select">
+          <el-option
+            v-for="item in restaurants"
+            :key="item.Id"
+            :label="item.ChannelName"
+            :value="item.ChannelName">
+          </el-option>
+          </el-select>
+        </el-form-item>
+
         <el-form-item label="服务器ID:">
-          <el-input v-model.number="form.id" placeholder="输入"></el-input>
+          <el-input v-model.number="form.ServerId" placeholder="输入"></el-input>
         </el-form-item>
         <el-form-item label="服务器名称:">
-          <el-input v-model="form.name" placeholder="输入"></el-input>
+          <el-input v-model="form.ServerName" placeholder="输入"></el-input>
         </el-form-item>
         <el-form-item label="开服时间:">
           <el-date-picker
-            v-model="form.data"
+            v-model="form.Data"
             type="date"
             value-format="yyyy-MM-dd"
             placeholder="选择日期">
           </el-date-picker>
           
-          <el-time-select
-            v-model="form.time"
+          <el-Time-select
+            v-model="form.Time"
             :picker-options="{
               start: '08:30',
               step: '00:15',
               end: '18:30'
             }"
             placeholder="选择时间">
-          </el-time-select>
+          </el-Time-select>
         </el-form-item>           
  
       </el-form>
@@ -49,13 +50,18 @@
     </div>
 
     <div class="table">
-      <div class="text">数据列表   
+      <div class="text">
+        数据列表   
       </div>
-      <el-table :data="tableData" border height="250" style="width: 100%">
-        <el-table-column label="id" width="80"></el-table-column>
-        <el-table-column label="服务器名称" width="140" prop="name"></el-table-column>
-        <el-table-column label="开服时间" width="180" prop="time"></el-table-column>
-        <el-table-column label="渠道管理" width="100" prop="channel"></el-table-column>
+      <el-table :data="serverList" border height="350" style="width: 100%">
+        <el-table-column label="Id" width="80" prop="ServerId"></el-table-column>
+        <el-table-column label="服务器名称" width="140" prop="ServerName"></el-table-column>
+        <el-table-column label="开服时间" width="180" prop="Data"></el-table-column>
+        <el-table-column label="渠道管理" width="100">      
+          <template slot-scope="scope">
+            <el-button @click="handleClick(scope.row)" type="text" size="medium">删除</el-button>
+          </template>
+        </el-table-column>
       </el-table>
     </div>
   </div>
@@ -67,41 +73,52 @@ import axios from '../../http'
     data() {
       return {
         form :{
-          id: '',
-          name: '',
-          time: '',
-          data: '',
-          channel: '',
+          ServerId: '',
+          ServerName: '',
+          Time: '',
+          Data: '',
+          ChannelName: '',
         },
-        tableData: [
-
-        ],
-        options: [{
-          value: '选项1',
-          label: '黄金糕'
-        }, {
-          value: '选项2',
-          label: '双皮奶'
-        }, {
-          value: '选项3',
-          label: '蚵仔煎'
-        }, {
-          value: '选项4',
-          label: '龙须面'
-        }, {
-          value: '选项5',
-          label: '北京烤鸭'
-        }],
-        serverList: []
+        restaurants: [],
+        serverList: [],
+        serverList2: [],
+        lastname: ''
       }
+    },
+    mounted() {
+      axios.get('/getChannels').then(
+        res => {
+          if(res.status == 200) {
+            this.restaurants = res.data.data
+          }
+        }
+      )
     },
     methods: {
       tianjia() {
         axios.post('/addArea', this.form)
         .then( res => {
+          if (res.status == 200) {       
+            this.serverList = res.data.data
+          }
+        })
+      },
+      filter(v) {
+        if(v != '' && v != this.lastname) {
+          axios.post('/getAreas', {"ChannelName": v})
+          .then( res => {
+            if (res.status == 200) {
+              this.serverList = res.data.data
+              this.lastname = v
+            }
+          })
+        }
+      },
+      handleClick(v) {
+        axios.post('/delArea', {"ChannelName": this.form.ChannelName,"ServerName":v.ServerName})
+        .then( res => {
           if (res.status == 200) {
-            console.log(res.data)
-            serverList.push()
+            this.serverList = res.data.data
           }
         })
       }
@@ -132,7 +149,6 @@ import axios from '../../http'
 }
 
 .select{
-
   margin-bottom: 30px;
 }
 </style>

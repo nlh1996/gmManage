@@ -9,8 +9,8 @@
           <el-option
             v-for="item in restaurants"
             :key="item.Id"
-            :label="item.Name"
-            :value="item.Name">
+            :label="item.ChannelName"
+            :value="item.ChannelName">
           </el-option>
         </el-select>
       </div>
@@ -25,7 +25,7 @@
           </el-col>
           <el-col :span="12">
             <el-form-item label="渠道名称:">
-              <el-input v-model="form1.Name"  style="width: 220px;"></el-input>
+              <el-input v-model="form1.ChannelName"  style="width: 220px;"></el-input>
             </el-form-item>                        
           </el-col>
         </el-row>
@@ -61,20 +61,20 @@
       <h2>添加渠道</h2>
       <el-form :inline="false" :model="form2" label-width="100px"  label-position="left" size="small">
         <el-form-item label="渠道ID:">
-          <el-input v-model.number="form2.id"  style="width:220px"></el-input>
+          <el-input v-model.number="form2.Id"  style="width:220px"></el-input>
         </el-form-item> 
         <el-form-item label="渠道名称:">
-          <el-input v-model="form2.name"  style="width: 220px;"></el-input>
+          <el-input v-model="form2.ChannelName"  style="width: 220px;"></el-input>
         </el-form-item>   
         <el-form-item label="联系人姓名:">
-          <el-input v-model="form2.linkmanName"  style="width: 220px;"></el-input>
+          <el-input v-model="form2.LinkmanName"  style="width: 220px;"></el-input>
         </el-form-item>   
         <el-form-item label="联系人电话:">
-          <el-input v-model="form2.linkmanPhone"  style="width: 220px;"></el-input>
+          <el-input v-model="form2.LinkmanPhone"  style="width: 220px;"></el-input>
         </el-form-item>  
         <el-form-item label="上线日期:">
           <el-date-picker
-            v-model="form2.data"
+            v-model="form2.Data"
             align="left"
             type="date"
             value-format="yyyy-MM-dd"
@@ -86,6 +86,19 @@
         </el-form-item>                
       </el-form>
     </div>
+
+    <div class="form3">
+      <h2>删除渠道</h2>
+      <el-form :inline="false" :model="form3" label-width="100px"  label-position="left" size="small">
+        <el-form-item label="渠道名称:">
+          <el-input v-model="form3.ChannelName"  style="width: 220px;"></el-input>
+        </el-form-item>   
+        <el-form-item>
+          <el-button @click="del" size="medium">确定</el-button>
+        </el-form-item>                
+      </el-form>
+    </div>    
+
   </div>
 </template>
 
@@ -94,41 +107,32 @@ import axios from '../../http';
   export default {
     data() {
       return {
-        options: [],
-        pickerOptions: {
-            disabledDate(time) {
-            return time.getTime() > Date.now();
-          },
-        },
         form1: {
           Id: '',
-          Name: '',
+          ChannelName: '',
           LinkmanName: '',
           LinkmanPhone: '',
           Data: ''
         },
         form2: {
-          id: '',
-          name: '',
-          linkmanName: '',
-          linkmanPhone: '',
-          data: '',
+          Id: '',
+          ChannelName: '',
+          LinkmanName: '',
+          LinkmanPhone: '',
+          Data: ''
         },
-        options: [],
-        value: [],
-        list: [],
-        loading: false,
+        form3: {
+          ChannelName: '',
+        },
         restaurants: [],
-        timeout: null,
-        selectValue: ''
+        selectValue: '',
       }
     },
     mounted() {
       axios.get('/getChannels').then(
         res => {
           if(res.status == 200) {
-            this.restaurants = res.data
-            console.log(res.data)
+            this.restaurants = res.data.data
           }
         }
       )
@@ -138,16 +142,51 @@ import axios from '../../http';
         axios.post('/addChannel', this.form2).then(
           res => {
             if(res.status == 200) {
-              console.log(res.data)
+              this.$message({
+                message: '添加成功！',
+                type: 'success'
+              })
+              axios.get('/getChannels').then(
+                res => {
+                  if(res.status == 200) {
+                    this.restaurants = res.data.data
+                  }
+                }
+              )
             }
           }
         )
+        this.form2.Id = ''
+        this.form2.ChannelName = ''
+        this.form2.LinkmanName = ''
+        this.form2.LinkmanPhone = ''
+        this.form2.Data = ''
+      },
+      del() {
+        if(this.form3.ChannelName) {
+          axios.post('/delChannel', this.form3).then(
+            res => {
+              if(res.status == 200) {
+                for(let i=0;i<this.restaurants.length;i++) {
+                  if(this.restaurants[i].ChannelName == this.form3.ChannelName){
+                    this.restaurants.splice(i,1)
+                    break
+                  }  
+                }
+                this.form3.ChannelName =''
+                this.$message({
+                  message: '删除成功！',
+                  type: 'success'
+                });
+              }
+            }
+          )
+        }
       },
       filter(v) {
         for(let i=0;i<this.restaurants.length;i++) {
-          if(this.restaurants[i].Name = v) {
+          if(this.restaurants[i].ChannelName == v) {
             this.form1 = this.restaurants[i]
-            console.log( this.form1)
             return
           }
         }
@@ -178,8 +217,9 @@ import axios from '../../http';
     padding: 30px;
     background-color:rgb(38, 166, 154)
 }
-.form2{
+.form2,.form3{
     width: 40%;
-    margin: 100px auto;
+    margin-left: 70px;
+    float: left;
 }
 </style>
