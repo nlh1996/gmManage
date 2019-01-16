@@ -9,7 +9,6 @@ import emailManage from '@/right_view/email_manage/EmailManage'
 Vue.use(Router)
 
 export default new Router({
-  mode: 'history',
   routes: [
     {
       path: '/goodsManage', 

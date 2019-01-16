@@ -42,10 +42,9 @@
 </template>
 
 <script>
-import VueStar from 'vue-star'
     export default {
         components: {
-            VueStar
+            
         }
     }
 </script>

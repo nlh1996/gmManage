@@ -8,12 +8,12 @@
       <el-form :model="form" label-position="left" label-width="100px">
         <el-form-item label="选择渠道:">
           <el-select v-model="form.ChannelName" :change="filter(form.ChannelName)" placeholder="请选择渠道" class="select">
-          <el-option
-            v-for="item in restaurants"
-            :key="item.Id"
-            :label="item.ChannelName"
-            :value="item.ChannelName">
-          </el-option>
+            <el-option
+              v-for="item in restaurants"
+              :key="item.Id"
+              :label="item.ChannelName"
+              :value="item.ChannelName">
+            </el-option>
           </el-select>
         </el-form-item>
 
@@ -72,7 +72,7 @@ import axios from '../../http'
   export default {
     data() {
       return {
-        form :{
+        form: {
           ServerId: '',
           ServerName: '',
           Time: '',
@@ -81,7 +81,6 @@ import axios from '../../http'
         },
         restaurants: [],
         serverList: [],
-        serverList2: [],
         lastname: ''
       }
     },
@@ -100,6 +99,10 @@ import axios from '../../http'
         .then( res => {
           if (res.status == 200) {       
             this.serverList = res.data.data
+            this.$message({
+              message: '添加成功！',
+              type: 'success'
+            })
           }
         })
       },
