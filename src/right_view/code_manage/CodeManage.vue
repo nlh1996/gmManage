@@ -44,13 +44,13 @@
         </el-col>
 
         <el-col :span="12">
-          <el-form-item label="兑换码长度">
+          <el-form-item label="兑换码长度:">
             <el-input v-model.number="form.Len"  style="width: 240px;"></el-input>
           </el-form-item>  
         </el-col> 
 
         <el-col :span="12">
-          <el-form-item label="兑换码数量">
+          <el-form-item label="兑换码数量:">
             <el-input v-model.number="form.Count"  style="width: 240px;"></el-input>
           </el-form-item>  
         </el-col> 
@@ -81,23 +81,27 @@
           </el-option>
         </el-select>
       </div>
-      <el-table :data="tablelist" border height="350" style="width: 100%">
+      <el-table :data="tablelist" border height="350" style="width: 100%" id="out-table">
         <el-table-column label="渠道" width="100" prop="Channel"></el-table-column>
         <el-table-column label="游戏区服" width="100" prop="Area"></el-table-column>
         <el-table-column label="礼包名" width="120" prop="GiftPackName"></el-table-column>
         <el-table-column label="兑换码" width="200" prop="Code"></el-table-column>
         <el-table-column label="使用情况" width="80" prop="Used">
           <template slot-scope="scope" v-if="scope.row.Used == false">
-            未使用
+            <div v-if="scope.row.Used == false">未使用</div>
+            <div v-else>已使用</div>
           </template>
         </el-table-column>
       </el-table>
     </div>
+    <el-button type="success" @click="exportExcel">生成excel</el-button>
   </div>
 </template>
 
 <script>
 import axios from '../../http'
+import FileSaver from 'file-saver'
+import XLSX from 'xlsx'
   export default {
     data() {
       return {
@@ -185,6 +189,16 @@ import axios from '../../http'
           }) 
         }
       },
+      exportExcel () {
+        /* generate workbook object from table */
+        var wb = XLSX.utils.table_to_book(document.querySelector('#out-table'))
+        /* get binary string as output */
+        var wbout = XLSX.write(wb, { bookType: 'xlsx', bookSST: true, type: 'array' })
+        try {
+          FileSaver.saveAs(new Blob([wbout], { type: 'application/octet-stream' }), 'sheetjs.xlsx')
+        } catch (e) { if (typeof console !== 'undefined') console.log(e, wbout) }
+        return wbout
+      },
     }
   }
 </script>
@@ -212,6 +226,6 @@ import axios from '../../http'
 }
 
 .select{
-  margin-bottom: 30px;
+  margin-bottom: 0px;
 }
 </style>

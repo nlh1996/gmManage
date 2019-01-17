@@ -12,8 +12,10 @@
   "dependencies": {
     "axios": "^0.18.0",
     "element-ui": "^2.4.6",
+    "file-saver": "^2.0.0",
     "vue": "^2.5.2",
-    "vue-router": "^3.0.1"
+    "vue-router": "^3.0.1",
+    "xlsx": "^0.14.1"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",
