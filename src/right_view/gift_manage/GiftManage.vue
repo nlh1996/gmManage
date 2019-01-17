@@ -64,20 +64,25 @@
 
     <div class="table">
       <div class="text">数据列表</div>
-        <el-table :data="tableData" border height="280" style="width: 100%">
-          <el-table-column label="id" width="80" prop=""></el-table-column>
-          <el-table-column label="名称" width="100" prop=""></el-table-column>
-          <el-table-column label="描述" width="200" prop=""></el-table-column>
-          <el-table-column label="所属渠道" width="100" prop=""></el-table-column>
-          <el-table-column label="所属区服" width="100" prop=""></el-table-column>
-          <el-table-column label="物品1" width="90" prop=""></el-table-column>
-          <el-table-column label="数量1" width="90" prop=""></el-table-column>
-          <el-table-column label="物品2" width="90" prop=""></el-table-column>
-          <el-table-column label="数量2" width="90" prop=""></el-table-column>
-          <el-table-column label="物品3" width="90" prop=""></el-table-column>
-          <el-table-column label="数量3" width="90" prop=""></el-table-column>
-          <el-table-column label="物品4" width="90" prop=""></el-table-column>
-          <el-table-column label="数量4" width="90" prop=""></el-table-column>
+        <el-table :data="tableData2" border height="320" style="width: 100%">
+          <el-table-column label="id" width="80" prop="GiftPackId" fixed></el-table-column>
+          <el-table-column label="名称" width="100" prop="GiftPackName" fixed></el-table-column>
+          <el-table-column label="描述" width="200" prop="Comment"></el-table-column>
+          <el-table-column label="所属渠道" width="100" prop="Channel"></el-table-column>
+          <el-table-column label="所属区服" width="100" prop="Area"></el-table-column>
+          <el-table-column label="物品1" width="90" prop="Good1Name"></el-table-column>
+          <el-table-column label="数量1" width="90" prop="Good1Num"></el-table-column>
+          <el-table-column label="物品2" width="90" prop="Good2Name"></el-table-column>
+          <el-table-column label="数量2" width="90" prop="Good2Num"></el-table-column>
+          <el-table-column label="物品3" width="90" prop="Good3Name"></el-table-column>
+          <el-table-column label="数量3" width="90" prop="Good3Num"></el-table-column>
+          <el-table-column label="物品4" width="90" prop="Good4Name"></el-table-column>
+          <el-table-column label="数量4" width="90" prop="Good4Num"></el-table-column>
+          <el-table-column label="渠道管理" width="100">      
+            <template slot-scope="scope">
+              <el-button @click="handleClick(scope.row)" type="text" size="medium">删除</el-button>
+            </template>
+          </el-table-column>
         </el-table>
     </div>
   </div>
@@ -95,47 +100,85 @@ import axios from '../../http'
           Area: '',
           Date: '',
           Comment: '',
-          Item: []
+          Items: []
         },
         form2: {
-          Good1Id: '',
-          Good1Num:'',
-          Good2Id:'',
-          Good2Num:'',
-          Good3Id:'',
-          Good3Num:'',
-          Good4Id:'',
-          Good4Num:'', 
-          Comment: '',
+          Good1Id: null,
+          Good1Num: null,
+          Good2Id: null,
+          Good2Num: null,
+          Good3Id: null,
+          Good3Num: null,
+          Good4Id: null,
+          Good4Num: null, 
+          Comment: null,
         },
-        good: {
-          Id: '',
-          Name: '',
-          Count: ''
-        },
-        tableData:[]
+        tableData2: []
       }
     },
     mounted() {
-
+      this.getGiftPack() 
     },
     methods: {
+      getGiftPack() {
+        axios.get('/getGiftPack').then( res=> {
+          let list = res.data.data
+          for(let i=0;i<list.length;i++) {
+            let tableData = {GiftPackId:'',GiftPackName:'',Comment:'',Channel:'',Area:'',Good1Name:'',
+            Good1Num:'',Good2Name:'',Good2Num:'',Good3Name:'',Good3Num:'',Good4Name:'',Good4Num:''}
+            tableData.GiftPackId = list[i].GiftPackId
+            tableData.GiftPackName = list[i].GiftPackName
+            tableData.Comment = list[i].Comment
+            tableData.Channel = list[i].Channel
+            tableData.Area = list[i].Area
+            tableData.Good1Name = list[i].Items[0].Name
+            tableData.Good1Num = list[i].Items[0].Count
+            tableData.Good2Name = list[i].Items[1].Name
+            tableData.Good2Num = list[i].Items[1].Count
+            tableData.Good3Name = list[i].Items[2].Name
+            tableData.Good3Num = list[i].Items[2].Count
+            tableData.Good4Name = list[i].Items[3].Name
+            tableData.Good4Num = list[i].Items[3].Count
+            this.tableData2.push(tableData)
+          }
+        })        
+      },
       addGiftPack() {
-        let list = []
-        this.good.Id = this.form2.Good1Id
-        this.good.Count = this.form2.Good1Num
-        list.push(this.good)
-        this.good.Id = this.form2.Good2Id
-        this.good.Count = this.form2.Good2Num
-        list.push(this.good)
-        this.good.Id = this.form2.Good3Id
-        this.good.Count = this.form2.Good3Num
-        list.push(this.good)
-        this.form.Item = list
+        let list = [{Id: 0,Count: null,Name:''},{Id: 0,Count: null,Name:''},{Id: 0,Count:null,Name:''},{Id: 0,Count: null,Name:''},]
+        list[0].Id = this.form2.Good1Id
+        list[0].Count = this.form2.Good1Num
+        list[1].Id = this.form2.Good2Id
+        list[1].Count = this.form2.Good2Num
+        list[2].Id = this.form2.Good3Id
+        list[2].Count = this.form2.Good3Num
+        list[3].Id = this.form2.Good4Id
+        list[3].Count = this.form2.Good4Num
+        this.form.Items = list
         this.form.Comment = this.form2.Comment
-        console.log(this.form)
-        axios.get('/addGiftPack',{GiftPack: this.form}).then( res=> {
-          console.log(res.data)
+        axios.post('/addGiftPack', this.form).then( res=> {
+          if (res.status == 200) {
+            this.$message({
+              message: '添加成功！',
+              type: 'success'
+            })
+            this.tableData2 = []
+            this.getGiftPack()
+          }else{
+            this.$message.error(res.data.res);
+          }
+        })
+      },
+      handleClick(v) {
+        axios.post('/delGiftPack', {"GiftPackName": v.GiftPackName})
+        .then( res => {
+          if (res.status == 200) {
+            this.$message({
+              message: '删除成功！',
+              type: 'success'
+            })
+            this.tableData2 = []
+            this.getGiftPack()
+          }
         })
       }
     }

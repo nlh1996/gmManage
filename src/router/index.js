@@ -6,6 +6,7 @@ import wayManage from '@/right_view/way_manage/WayManage'
 import openService from '@/right_view/open_service/OpenService'
 import giftManage from '@/right_view/gift_manage/GiftManage'
 import emailManage from '@/right_view/email_manage/EmailManage'
+import codeManage from '@/right_view/code_manage/CodeManage'
 Vue.use(Router)
 
 export default new Router({
@@ -40,7 +41,11 @@ export default new Router({
       name: 'emailManage',
       component: emailManage
     },      
- 
+    {
+      path: '/codeManage',
+      name: 'codeManage',
+      component: codeManage
+    },   
   ],
   scrollBehavior (to, from, savedPosition) {
     return {x:0,y:0}

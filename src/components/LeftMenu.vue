@@ -28,9 +28,9 @@
             <!-- <i class="el-icon-setting"></i> -->
             <span slot="title">邮件管理</span>
         </el-menu-item>
-        <el-menu-item index="6">
+        <el-menu-item index="/codeManage">
             <!-- <i class="el-icon-setting"></i> -->
-            <span slot="title">激活码管理</span>
+            <span slot="title">兑换码管理</span>
         </el-menu-item>
         </el-menu>
         <!-- <div>

@@ -8,7 +8,7 @@
         <!--表单-->
         <el-form :inline="true" :model="formInline" class="demo-form-inline" label-position="left">
           <el-row>
-            <el-form-item label="输入平台">
+            <el-form-item label="输入渠道">
                 <el-input v-model="formInline.platform"  style="width: 140px;"></el-input>
             </el-form-item>
 
@@ -19,7 +19,7 @@
           
           <el-row>
             <el-col>
-              <el-form-item label="用户名称">
+              <el-form-item label="玩家昵称">
                 <el-input v-model="formInline.name"  style="width: 140px;"></el-input>     
                 <el-button type="success" style="width: 80px;margin-left:140px">搜索</el-button>
               </el-form-item> 
