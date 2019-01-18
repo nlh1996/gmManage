@@ -60,7 +60,7 @@ export default {
 .main{
   padding: 0px;
   margin: 0px;
-  height: 1000px;
+  height: 950px;
 }
 
 .left-menu{

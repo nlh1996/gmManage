@@ -23,39 +23,36 @@
             <el-input v-model="form.Date" placeholder="输入" style="width:90%"></el-input>
           </el-form-item>                                        
         </el-col>
-      </el-form>
 
-      <el-form :model="form2" label-position="left" label-width="90px">
         <el-col :span="8">
           <el-form-item label="物品1ID:">
-            <el-input v-model.number="form2.Good1Id" placeholder="输入" style="width:90%"></el-input>
+            <el-input v-model.number="form.Items.Id" placeholder="输入" style="width:90%"></el-input>
           </el-form-item>
           <el-form-item label="物品1数量:">
-            <el-input v-model.number="form2.Good1Num" placeholder="输入" style="width:90%"></el-input>
+            <el-input v-model.number="form.Items.Count" placeholder="输入" style="width:90%"></el-input>
           </el-form-item>
           <el-form-item label="物品2ID:">
-            <el-input v-model.number="form2.Good2Id" placeholder="输入" style="width:90%"></el-input>
+            <el-input v-model.number="form.Items.Id" placeholder="输入" style="width:90%"></el-input>
           </el-form-item>
           <el-form-item label="物品2数量:">
-            <el-input v-model.number="form2.Good2Num" placeholder="输入" style="width:90%"></el-input>
+            <el-input v-model.number="form.Items.Count" placeholder="输入" style="width:90%"></el-input>
           </el-form-item>
           <el-form-item label="物品3ID:">
-            <el-input v-model.number="form2.Good3Id" placeholder="输入" style="width:90%"></el-input>
+            <el-input v-model.number="form.Items.Id" placeholder="输入" style="width:90%"></el-input>
           </el-form-item>          
         </el-col>
-        
         <el-col :span="8">
           <el-form-item label="物品3数量:">
-            <el-input v-model.number="form2.Good3Num" placeholder="输入" style="width:90%"></el-input>
+            <el-input v-model.number="form.Items.Count" placeholder="输入" style="width:90%"></el-input>
           </el-form-item> 
           <el-form-item label="物品4ID:">
-            <el-input v-model.number="form2.Good4Id" placeholder="输入" style="width:90%"></el-input>
+            <el-input v-model.number="form.Items.Id" placeholder="输入" style="width:90%"></el-input>
           </el-form-item> 
           <el-form-item label="物品4数量:">
-            <el-input v-model.number="form2.Good4Num" placeholder="输入" style="width:90%"></el-input>
+            <el-input v-model.number="form.Items.Count" placeholder="输入" style="width:90%"></el-input>
           </el-form-item>
           <el-form-item label="描述:">
-            <el-input v-model="form2.Comment" placeholder="输入" style="width:90%"></el-input>
+            <el-input v-model="form.Comment" placeholder="输入" style="width:90%"></el-input>
           </el-form-item>
           <el-button style="margin-top:5px" @click="addGiftPack"><strong>添加礼包</strong></el-button>          
         </el-col>
@@ -100,18 +97,7 @@ import axios from '../../http'
           Area: '',
           Date: '',
           Comment: '',
-          Items: []
-        },
-        form2: {
-          Good1Id: null,
-          Good1Num: null,
-          Good2Id: null,
-          Good2Num: null,
-          Good3Id: null,
-          Good3Num: null,
-          Good4Id: null,
-          Good4Num: null, 
-          Comment: null,
+          Items: [{Id: null,Count: null},{Id: null,Count: null},{Id: null,Count: null},{Id: null,Count: null}]
         },
         tableData2: []
       }
@@ -144,17 +130,6 @@ import axios from '../../http'
         })        
       },
       addGiftPack() {
-        let list = [{Id: 0,Count: null,Name:''},{Id: 0,Count: null,Name:''},{Id: 0,Count:null,Name:''},{Id: 0,Count: null,Name:''},]
-        list[0].Id = this.form2.Good1Id
-        list[0].Count = this.form2.Good1Num
-        list[1].Id = this.form2.Good2Id
-        list[1].Count = this.form2.Good2Num
-        list[2].Id = this.form2.Good3Id
-        list[2].Count = this.form2.Good3Num
-        list[3].Id = this.form2.Good4Id
-        list[3].Count = this.form2.Good4Num
-        this.form.Items = list
-        this.form.Comment = this.form2.Comment
         axios.post('/addGiftPack', this.form).then( res=> {
           if (res.status == 200) {
             this.$message({
@@ -164,7 +139,7 @@ import axios from '../../http'
             this.tableData2 = []
             this.getGiftPack()
           }else{
-            this.$message.error(res.data.res);
+            this.$message.error(res.data.err);
           }
         })
       },

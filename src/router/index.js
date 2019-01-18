@@ -1,12 +1,13 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import goodsManage from '@/right_view/goods_manage/GoodsManage'
-import playerManage from '@/right_view/player_manage/PlayerManage'
-import wayManage from '@/right_view/way_manage/WayManage'
-import openService from '@/right_view/open_service/OpenService'
-import giftManage from '@/right_view/gift_manage/GiftManage'
-import emailManage from '@/right_view/email_manage/EmailManage'
-import codeManage from '@/right_view/code_manage/CodeManage'
+const goodsManage = () => import('@/right_view/goods_manage/GoodsManage')
+const playerManage = () => import('@/right_view/player_manage/PlayerManage')
+const wayManage = () => import('@/right_view/way_manage/WayManage')
+const openService = () => import('@/right_view/open_service/OpenService')
+const giftManage = () => import('@/right_view/gift_manage/GiftManage')
+const emailManage = () => import('@/right_view/email_manage/EmailManage')
+const codeManage = () => import('@/right_view/code_manage/CodeManage')
+const dockerCreate = () => import('@/right_view/docker_create/DockerCreate')
 Vue.use(Router)
 
 export default new Router({
@@ -45,6 +46,11 @@ export default new Router({
       path: '/codeManage',
       name: 'codeManage',
       component: codeManage
+    },   
+    {
+      path: '/dockerCreate',
+      name: 'dockerCreate',
+      component: dockerCreate
     },   
   ],
   scrollBehavior (to, from, savedPosition) {

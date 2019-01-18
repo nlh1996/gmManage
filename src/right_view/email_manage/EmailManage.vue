@@ -30,12 +30,19 @@
           </el-col>
           <el-col :span="8">
             <el-form-item label="发件对象id:">
-              <el-input v-model.number="form.ReceiverUid " placeholder="输入" style="width:90%"></el-input>
+              <el-input v-model="form.ReceiverUid " placeholder="输入" style="width:90%"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="礼包ID:">
-              <el-input v-model.number="form.GiftPackId " placeholder="输入" style="width:90%"></el-input>
+            <el-form-item label="选择礼包:">
+              <el-select v-model="form.GiftPackName" style="width:90%">
+                <el-option
+                  v-for="item in giftList"
+                  :key="item.Id"
+                  :label="item.GiftPackName"
+                  :value="item.GiftPackName">
+                </el-option>
+              </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -127,23 +134,34 @@ import axios from '../../http'
           Title: '',
           Content: '',
           ReceiverName: '',
-          ReceiverUid: null,
-          GiftPackId: null,
+          ReceiverUid: '',
+          GiftPackName: '',
           Channel: '',
           Area: '',
           Items: [{Id:null,Count:null},{Id:null,Count:null}],
           FullService: false,
         },
-        tableData: [
-
-        ]
+        tableData: [],
+        giftList: []
       }
     },  
+    mounted() {
+      axios.get('/getGiftPack').then( res=> {
+        this.giftList = res.data.data
+      })
+    },
     methods: {
       submit() {
         axios.post('/sendEmail',this.form)
         .then( res=>{
-          console.log(res.data)
+          if(res.status == 200) {
+            this.$message({
+              message: '邮件发送成功！',
+              type: 'success'
+            })
+          }else {
+            this.$message.error(res.data.err);
+          }
         })
       }
     },

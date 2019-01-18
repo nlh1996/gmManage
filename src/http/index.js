@@ -71,13 +71,14 @@ axios.interceptors.response.use(response => {
 })
 
 //抽离get,post公共配置
-axios.defaults.baseURL = 'http://192.168.1.5:8080'
+axios.defaults.baseURL = 'http://192.168.1.5:20000'
 
 axios.defaults.headers = {
   'X-Requested-With': 'XMLHttpRequest'
 }
 axios.defaults.timeout = 5000
 
+// 用于请求docker的axios实例
 const dockerApi = new axios.create({
   baseURL: '/api',
   timeout: 5000
