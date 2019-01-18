@@ -93,6 +93,9 @@ export default {
         this.tableData = this.tableData2
       }
     })
+    axios.dockerApi.get('/networks').then( res => {
+      console.log(res.data)
+    })
   }
 }
 </script>

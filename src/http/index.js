@@ -78,6 +78,11 @@ axios.defaults.headers = {
 }
 axios.defaults.timeout = 5000
 
+const dockerApi = new axios.create({
+  baseURL: '/api',
+  timeout: 5000
+}) 
+
 export default {
     //get请求
     get (url,params) {
@@ -111,4 +116,5 @@ export default {
         })
       })
     },
+    dockerApi
   }
