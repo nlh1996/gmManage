@@ -4,43 +4,63 @@
       <div class="text">邮件管理</div>
     </div>
     <div class="form">
-      <el-row class="text" :span="24">
-        邮件生产
-      </el-row>
-
-      <el-row></el-row>
-      <el-form :model="form" label-position="left" label-width="90px">
+      <el-form :model="form" label-position="left" label-width="120px">
         <el-row>
           <el-col :span="8">
-            <el-form-item label="邮件ID:">
-              <el-input v-model="form.email_id" placeholder="输入" style="width:90%"></el-input>
+            <el-form-item label="邮件标题:">
+              <el-input v-model="form.Title" placeholder="输入" style="width:90%"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="邮件名称:">
-              <el-input v-model="form.email_name" placeholder="输入" style="width:90%"></el-input>
+            <el-form-item label="所属渠道:">
+              <el-input v-model="form.Channel " placeholder="输入" style="width:90%"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="礼包ID:">
-              <el-input v-model="form.libao_id" placeholder="输入" style="width:90%"></el-input>
+            <el-form-item label="所属区服:">
+              <el-input v-model="form.Area" placeholder="输入" style="width:90%"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="8">
-            <el-form-item label="所属平台:">
-              <el-input v-model="form.plantform" placeholder="输入" style="width:90%"></el-input>
+            <el-form-item label="发件对象昵称:">
+              <el-input v-model="form.ReceiverName " placeholder="输入" style="width:90%"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="所属区服:">
-              <el-input v-model="form.area" placeholder="输入" style="width:90%"></el-input>
+            <el-form-item label="发件对象id:">
+              <el-input v-model.number="form.ReceiverUid " placeholder="输入" style="width:90%"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="发件对象:">
-              <el-input v-model="form.player" placeholder="输入" style="width:90%"></el-input>
+            <el-form-item label="礼包ID:">
+              <el-input v-model.number="form.GiftPackId " placeholder="输入" style="width:90%"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="物品一id:">
+              <el-input v-model.number="form.Items[0].Id" placeholder="输入" style="width:90%"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="物品一数量:">
+              <el-input v-model.number="form.Items[0].Count" placeholder="输入" style="width:90%"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="物品二id:">
+              <el-input v-model.number="form.Items[1].Id" placeholder="输入" style="width:90%"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="物品二数量:">
+              <el-input v-model.number="form.Items[1].Count" placeholder="输入" style="width:90%"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="5">
+            <el-form-item label="全服邮件" prop="delivery">
+              <el-switch v-model="form.FullService"></el-switch>
             </el-form-item>
           </el-col>
         </el-row>
@@ -72,12 +92,12 @@
                 type="textarea"
                 :rows="3"
                 placeholder="请输入内容"
-                v-model="textarea">
+                v-model="form.Content">
               </el-input>
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-button style="margin-top:30px;margin-left:80px"><strong>生成邮件</strong></el-button>
+            <el-button style="margin-top:30px;margin-left:80px" @click="submit"><strong>生成邮件</strong></el-button>
           </el-col>
         </el-row>       
       </el-form>
@@ -98,26 +118,35 @@
 </template>
 
 <script>
+import axios from '../../http'
   export default {
     data() {
       return {
         textarea: '',
         form: {
-          email_id: '',
-          email_name: '',
-          libao_id: '',
-          plantform: '',
-          area: '',
-          player: '',
-          date: '',
-          time: '',
-          comment: ''
+          Title: '',
+          Content: '',
+          ReceiverName: '',
+          ReceiverUid: null,
+          GiftPackId: null,
+          Channel: '',
+          Area: '',
+          Items: [{Id:null,Count:null},{Id:null,Count:null}],
+          FullService: false,
         },
         tableData: [
 
         ]
       }
     },  
+    methods: {
+      submit() {
+        axios.post('/sendEmail',this.form)
+        .then( res=>{
+          console.log(res.data)
+        })
+      }
+    },
   }
 </script>
 
@@ -135,7 +164,7 @@
 .form{
   padding: 10px;
   background-color: rgb(38, 166, 154);
-  height: 280px;
+  height: 350px;
 }
 .table{
   margin: 50px auto;

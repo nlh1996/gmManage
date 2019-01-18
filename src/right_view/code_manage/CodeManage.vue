@@ -93,8 +93,8 @@
           </template>
         </el-table-column>
       </el-table>
+      <el-button style="margin-top:30px;float:right;" @click="exportExcel">生成excel</el-button>
     </div>
-    <el-button type="success" @click="exportExcel">生成excel</el-button>
   </div>
 </template>
 
