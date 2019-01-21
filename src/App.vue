@@ -85,4 +85,12 @@ export default {
   font-size: 18px;
   font-weight: bold;
 }
+
+.el-table .warning-row {
+  background: oldlace;
+}
+
+.el-table .success-row {
+  background: #f0f9eb;
+}
 </style>

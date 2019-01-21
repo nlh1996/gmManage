@@ -8,6 +8,7 @@ const giftManage = () => import('@/right_view/gift_manage/GiftManage')
 const emailManage = () => import('@/right_view/email_manage/EmailManage')
 const codeManage = () => import('@/right_view/code_manage/CodeManage')
 const dockerCreate = () => import('@/right_view/docker_create/DockerCreate')
+const dockerStatus = () => import('@/right_view/docker_status/DockerStatus')
 Vue.use(Router)
 
 export default new Router({
@@ -51,7 +52,12 @@ export default new Router({
       path: '/dockerCreate',
       name: 'dockerCreate',
       component: dockerCreate
-    },   
+    }, 
+    {
+      path: '/dockerStatus',
+      name: 'dockerStatus', 
+      component: dockerStatus
+    },  
   ],
   scrollBehavior (to, from, savedPosition) {
     return {x:0,y:0}

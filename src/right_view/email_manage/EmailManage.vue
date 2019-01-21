@@ -12,13 +12,27 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="所属渠道:">
-              <el-input v-model="form.Channel " placeholder="输入" style="width:90%"></el-input>
+            <el-form-item label="选择渠道:">
+              <el-select v-model="form.Channel" style="width:90%">
+                <el-option
+                  v-for="(item,id) in giftList"
+                  :key="id"
+                  :label="item.GiftPackName"
+                  :value="item.GiftPackName">
+                </el-option>
+              </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="所属区服:">
-              <el-input v-model="form.Area" placeholder="输入" style="width:90%"></el-input>
+            <el-form-item label="选择区服:">
+              <el-select v-model="form.Area" style="width:90%">
+                <el-option
+                  v-for="(item,id) in giftList"
+                  :key="id"
+                  :label="item.GiftPackName"
+                  :value="item.GiftPackName">
+                </el-option>
+              </el-select>
             </el-form-item>
           </el-col>
         </el-row>
@@ -37,8 +51,8 @@
             <el-form-item label="选择礼包:">
               <el-select v-model="form.GiftPackName" style="width:90%">
                 <el-option
-                  v-for="item in giftList"
-                  :key="item.Id"
+                  v-for="(item,id) in giftList"
+                  :key="id"
                   :label="item.GiftPackName"
                   :value="item.GiftPackName">
                 </el-option>
@@ -73,25 +87,25 @@
         </el-row>
         <el-row>
           <el-col :span="8">
-              <el-form-item label="定时发送:">
-                <el-date-picker
-                  style="width:180px"
-                  v-model="form.data"
-                  type="date"
-                  placeholder="选择日期">
-                </el-date-picker>
-                
-                <el-time-select
-                  style="width:180px;"
-                  v-model="form.time"
-                  :picker-options="{
-                    start: '08:30',
-                    step: '00:15',
-                    end: '18:30'
-                  }"
-                  placeholder="选择时间">
-                </el-time-select>
-              </el-form-item>
+            <el-form-item label="定时发送:">
+              <el-date-picker
+                style="width:180px"
+                v-model="form.data"
+                type="date"
+                placeholder="选择日期">
+              </el-date-picker>
+              
+              <el-time-select
+                style="width:180px;"
+                v-model="form.time"
+                :picker-options="{
+                  start: '08:30',
+                  step: '00:15',
+                  end: '18:30'
+                }"
+                placeholder="选择时间">
+              </el-time-select>
+            </el-form-item>
           </el-col>
           <el-col :span="10">
             <el-form-item label="邮件内容:">
@@ -148,6 +162,7 @@ import axios from '../../http'
     mounted() {
       axios.get('/getGiftPack').then( res=> {
         this.giftList = res.data.data
+        this.giftList.push({})
       })
     },
     methods: {
