@@ -76,12 +76,13 @@ axios.defaults.baseURL = 'http://192.168.1.5:20000'
 axios.defaults.headers = {
   'X-Requested-With': 'XMLHttpRequest'
 }
-axios.defaults.timeout = 5000
+axios.defaults.timeout = 10000
 
 // 用于请求docker的axios实例
 const dockerApi = new axios.create({
   baseURL: '/api',
-  timeout: 5000
+  timeout: 10000,
+  headers: {'Content-Type': 'application/json; charset=UTF-8'}
 }) 
 
 export default {

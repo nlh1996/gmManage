@@ -1,34 +1,31 @@
 <template>
   <section class="player">
     <el-row>
-        <div class="text">玩家查找</div>
+        <div class="text aa">玩家查找</div>
     </el-row>
     <hr>
-    <el-row>
         <!--表单-->
-        <el-form :inline="true" :model="formInline" class="demo-form-inline" label-position="left">
-          <el-row>
-            <el-form-item label="输入渠道">
-                <el-input v-model="formInline.platform"  style="width: 140px;"></el-input>
-            </el-form-item>
+      <div class="form">
+        <el-form :inline="true" :model="formInline" class="demo-form-inline">
 
-            <el-form-item label="输入区服">
-                <el-input v-model="formInline.area"  style="width: 140px;"></el-input>
-            </el-form-item>          
-          </el-row>
-          
-          <el-row>
-            <el-col>
-              <el-form-item label="玩家昵称">
-                <el-input v-model="formInline.name"  style="width: 140px;"></el-input>     
-                <el-button type="success" style="width: 80px;margin-left:140px">搜索</el-button>
-              </el-form-item> 
-            </el-col>  
-                         
-          </el-row>
+          <el-form-item label="输入渠道:">
+            <el-input v-model="formInline.Channel"  style="width: 140px;"></el-input>
+          </el-form-item>
 
+          <el-form-item label="输入区服:">
+            <el-input v-model="formInline.Area"  style="width: 140px;"></el-input>
+          </el-form-item>          
+
+          <el-form-item label="玩家昵称:">
+            <el-input v-model="formInline.NickName"  style="width: 140px;"></el-input>     
+          </el-form-item> 
+
+          <el-form-item label="玩家id:">
+            <el-input v-model="formInline.Uid"  style="width: 140px;margin-left:20px;"></el-input>     
+          </el-form-item> 
         </el-form>
-    </el-row>
+        <el-button type="success" @click="search">搜索</el-button>
+      </div>
 
     <el-row>  
       <div class="table1">
@@ -40,22 +37,22 @@
           style="width: 100%">
 
           <el-table-column
-            prop="way"
+            prop="Channel"
             label="渠道"
             width="120">
           </el-table-column>
           <el-table-column
-            prop="area"
+            prop="Area"
             label="区服"
             width="120">
           </el-table-column>
           <el-table-column
-            prop="name"
+            prop="NickName"
             label="玩家昵称"
             width="150">
           </el-table-column>
           <el-table-column
-            prop="player_id"
+            prop="Uid"
             label="玩家id"
             width="120">
           </el-table-column>
@@ -76,21 +73,20 @@
       <el-col :span="24">
         <el-form :inline="true" :model="control" class="demo-form-inline">
           <el-form-item label="输入禁言时间:">
-            <el-input v-model="control.jinyan"  style="width: 140px;"></el-input>
-            <el-button type="warning" size="medium">禁言</el-button> 
+            <el-input v-model.number="control.jinyan"  style="width: 140px;"></el-input>
+            <el-button type="warning" size="medium" @click="submit(control.jinyan,'禁言')">禁言</el-button> 
           </el-form-item>
           <el-form-item label="输入下线时间:">
-            <el-input v-model="control.xiaxian"  style="width: 140px;"></el-input>
-            <el-button type="warning" size="medium">下线</el-button> 
+            <el-input v-model.number="control.xiaxian"  style="width: 140px;"></el-input>
+            <el-button type="warning" size="medium" @click="submit(control.xiaxian,'下线')">下线</el-button> 
           </el-form-item>
           <el-form-item label="输入封号时间:">
-            <el-input v-model="control.fenghao"  style="width: 140px;"></el-input>
-            <el-button type="warning" size="medium">封号</el-button> 
+            <el-input v-model.number="control.fenghao"  style="width: 140px;"></el-input>
+            <el-button type="warning" size="medium" @click="submit(control.fenghao,'封号')">封号</el-button> 
           </el-form-item>   
         </el-form>      
       </el-col>
     </el-row>
-
 
     <el-row>
         <div class="text">操作记录</div>
@@ -148,36 +144,53 @@
 </template>
 
 <script>
-    export default {
-        data() {
-            return {
-                formInline: {
-                    platform: '',
-                    area: '',
-                    name: ''
-                },
-                control: {
-
-                },
-                tableData_show: [
-
-                ],
-                tableData_log: [
-
-                ]
-            }
+import axios from '../../http'
+  export default {
+    data() {
+      return {
+        formInline: {
+          Channel: '',
+          Area: '',
+          NickName: '',
+          Uid: ''
         },
+        control: {},
+        tableData_show: [],
+        tableData_log: []
+      }
+    },
+    methods: {
+      search() {
+        axios.post('/findPlayer',this.formInline).then(
+          res => {
+            if(res.status==200) {
+              this.tableData_show.push(res.data.data)
+            }
+          }
+        )
+      },
+      submit(time,v) {
+        this.tableData_show[0].SurplusHour = time
+        this.tableData_show[0].StateStr = v
+        console.log(this.tableData_show[0])
+        axios.post('/managePlayer',this.tableData_show[0]).then(
+          res => {
+            console.log(res.data)
+          }
+        )
+      }
     }
+  }
 </script>
  actions<style scoped>
   .player{
     padding: 30px;
   }
   .text{
-      margin-left: 130px;
-      float: left;
-      font-size: 24px;
-      font-weight: bold;
+    margin-left: 130px;
+    float: left;
+    font-size: 24px;
+    font-weight: bold;
   }
   .table1{
     margin: 10px auto;
@@ -189,11 +202,15 @@
   }
 
   hr {
-      width:95%;
-      margin:20px auto;border: 0;
-      height: 1px;
-      background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
+    width:95%;
+    margin:20px auto;border: 0;
+    height: 1px;
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
   }
   
+  .form{
+    width: 600px;
+    margin: 0 auto;
+  }
 
 </style >

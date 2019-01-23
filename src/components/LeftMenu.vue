@@ -59,4 +59,9 @@
   background-color: #E6E6E6;
 }
 
+
+.el-menu-item{
+  font-size: 18px;
+  font-weight: bold;
+}
 </style>

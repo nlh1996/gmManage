@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="head">
-      <div class="text">兑换码管理</div>
+      <div class="text">容器创建</div>
     </div>
     <div class="form">
 
@@ -21,12 +21,12 @@
 
         <el-col :span="12">
         <el-form-item label="选择镜像:">
-          <el-select v-model="form.Image" :change="filter2(form.Image)" placeholder="请选择镜像" class="select">
+          <el-select v-model="form.Image" placeholder="请选择镜像" class="select">
             <el-option
-              v-for="item in images"
-              :key="item.Id"
-              :label="item.ServerName"
-              :value="item.ServerName">
+              v-for="(item,index) in images"
+              :key="index"
+              :label="item.name"
+              :value="item.name">
             </el-option>
           </el-select>
         </el-form-item>
@@ -54,8 +54,6 @@
 
 <script>
 import axios from '../../http'
-import FileSaver from 'file-saver'
-import XLSX from 'xlsx'
   export default {
     data() {
       return {
@@ -66,30 +64,43 @@ import XLSX from 'xlsx'
           Image: ''
         },
         images: [],
-        serverList: []
+        serverList: [],
+        config: {
+          Hostname: 'abc',
+          Domainname: "hehe",
+          Image: "nginx",
+          ExposedPorts: {
+            "80/tcp": {}
+          },
+          HostConfig: {
+            PortBindings: {
+              "80/tcp": [{HostPort: "12100"}]
+            }
+          },
+        }
       }
     },
     mounted() {
-      axios.get('/getChannels').then(
-        res => {
-          if(res.status == 200) {
-            this.channels = res.data.data
-          }
+      axios.dockerApi.get('/images/json').then( res => {
+        for(let i=0;i<res.data.length;i++) {
+          this.images.push({name: res.data[i].RepoTags[0]})
         }
-      )
+      })   
     },
+
     methods: {
       tianjia() {
-        axios.post('/addRedeemCodes', this.form)
-        .then( res => {
-          if (res.status == 200) {       
-            this.tablelist = res.data.data
-            this.$message({
-              message: '添加成功！',
-              type: 'success'
-            })
+        axios.dockerApi.post('/containers/create',JSON.stringify(this.config)).then( 
+          res => {
+            if(res.status==201) {
+              this.$message({
+                message: '容器创建成功！',
+                type: 'success'
+              })
+            }
+            console.log(res.data)
           }
-        })
+        ) 
       },
       filter1(v) {
         if(v != '' && v != this.lastChannel) {

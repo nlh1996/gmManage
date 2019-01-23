@@ -39,6 +39,7 @@ export default {
 </script>
 
 <style>
+@import "./assets/index.css";
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -52,45 +53,5 @@ export default {
   -ms-user-select: none; /*IE10*/
   -khtml-user-select: none; /*早期浏览器*/
   user-select: none;
-}
-
-.head-menu{
-  height: 100%;
-}
-.main{
-  padding: 0px;
-  margin: 0px;
-  height: 950px;
-}
-
-.left-menu{
-  height: 100%;
-}
-
-.right-view{
-  background-color: #E6E6E6;
-  height: 100%;
-}
-
-.router-view{
-  background-color:rgb(240, 237, 237);
-  height: 100%;
-}
-
-.el-form-item__label{
-  font-size: 16px;
-  color: black; 
-}
-.el-menu-item{
-  font-size: 18px;
-  font-weight: bold;
-}
-
-.el-table .warning-row {
-  background: oldlace;
-}
-
-.el-table .success-row {
-  background: #f0f9eb;
 }
 </style>
