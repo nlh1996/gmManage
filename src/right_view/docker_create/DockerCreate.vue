@@ -7,40 +7,46 @@
 
       <el-form :model="form" label-position="left" label-width="100px">
         <el-col :span="12">
-        <el-form-item label="选择服务器:">
-          <el-select v-model="form.Channel" :change="filter1(form.Server)" placeholder="请选择服务器" class="select">
-            <el-option
-              v-for="item in serverList"
-              :key="item.Id"
-              :label="item.ChannelName"
-              :value="item.ChannelName">
-            </el-option>
-          </el-select>
-        </el-form-item>
+          <el-form-item label="选择服务器:">
+            <el-select v-model="form.Channel" placeholder="请选择服务器" class="select">
+              <el-option
+                v-for="item in serverList"
+                :key="item.Id"
+                :label="item.ChannelName"
+                :value="item.ChannelName">
+              </el-option>
+            </el-select>
+          </el-form-item>
         </el-col>
 
         <el-col :span="12">
-        <el-form-item label="选择镜像:">
-          <el-select v-model="form.Image" placeholder="请选择镜像" class="select">
-            <el-option
-              v-for="(item,index) in images"
-              :key="index"
-              :label="item.name"
-              :value="item.name">
-            </el-option>
-          </el-select>
-        </el-form-item>
+          <el-form-item label="选择镜像:">
+            <el-select v-model="form.Image" placeholder="请选择镜像" class="select">
+              <el-option
+                v-for="(item,index) in images"
+                :key="index"
+                :label="item.name"
+                :value="item.name">
+              </el-option>
+            </el-select>
+          </el-form-item>
         </el-col>
 
         <el-col :span="12">
           <el-form-item label="区服名称:">
-            <el-input v-model.number="form.Area"  style="width: 220px;"></el-input>
+            <el-input v-model.number="form.Area" style="width: 220px;"></el-input>
           </el-form-item>  
         </el-col> 
 
         <el-col :span="12">
           <el-form-item label="容器名称:">
-            <el-input v-model.number="form.Name"  style="width: 220px;"></el-input>
+            <el-input v-model.number="form.Name" style="width: 220px;"></el-input>
+          </el-form-item>  
+        </el-col> 
+
+        <el-col :span="12">
+          <el-form-item label="端口填写:">
+            <el-input v-model.number="form.Port" style="width: 220px;"></el-input>
           </el-form-item>  
         </el-col> 
       </el-form>
@@ -61,7 +67,8 @@ import axios from '../../http'
           Name: '',
           Area: '',
           Server: '',
-          Image: ''
+          Image: '',
+          Port: '',
         },
         images: [],
         serverList: [],
@@ -80,12 +87,13 @@ import axios from '../../http'
         }
       }
     },
+
     mounted() {
       axios.dockerApi.get('/images/json').then( res => {
         for(let i=0;i<res.data.length;i++) {
           this.images.push({name: res.data[i].RepoTags[0]})
         }
-      })   
+      }) 
     },
 
     methods: {
@@ -98,29 +106,8 @@ import axios from '../../http'
                 type: 'success'
               })
             }
-            console.log(res.data)
           }
         ) 
-      },
-      filter1(v) {
-        if(v != '' && v != this.lastChannel) {
-          this.form.Area = ''
-          axios.post('/getAreas', {"ChannelName": v})
-          .then( res => {
-            if (res.status == 200) {
-              this.areas = res.data.data
-              this.lastChannel = v
-            }
-          })
-        }
-      },
-      filter2(v) {
-        if(v != '' && v != this.lastArea) {
-          axios.get('/getGiftPack').then( res=> {
-            this.gifts = res.data.data
-            this.lastArea = v
-          }) 
-        }
       },
     }
   }

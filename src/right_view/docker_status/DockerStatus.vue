@@ -20,16 +20,16 @@
           label="所在服务器"
           align="left"
           width="140">
-          <template slot-scope="scope">{{ scope.row.date }}</template>
+          <template slot-scope="scope">{{ scope.row.Id }}</template>
         </el-table-column>
         <el-table-column
-          prop="name"
+          prop="Names"
           label="游戏区服"
           align="left"
-          width="120">
+          width="140">
         </el-table-column>
         <el-table-column
-          prop="address"
+          prop="State"
           label="运行状态"
           align="center"
           width="100"
@@ -69,49 +69,17 @@ import axios from '../../http'
           Len: null,
           Count: null,
         },
-        tableData: [{
-          date: '2016-05-02',
-          name: '王小虎',
-          address: '运行中',
-        }, {
-          date: '2016-05-04',
-          name: '王小虎',
-          address: '运行中',
-        }, {
-          date: '2016-05-01',
-          name: '王小虎',
-          address: '运行中',
-        }, {
-          date: '2016-05-03',
-          name: '王小虎',
-          address: '运行中',
-        }]
+        tableData: []
       }
     },
     mounted() {
-
+      this.getStatus()
     },
     methods: {
-      tianjia() {
-        axios.post('/addRedeemCodes', this.form)
-        .then( res => {
-          if (res.status == 200) {       
-            this.tablelist = res.data.data
-            this.$message({
-              message: '添加成功！',
-              type: 'success'
-            })
-          }
-        })
-      },
-      toggleSelection(rows) {
-        if (rows) {
-          rows.forEach(row => {
-            this.$refs.multipleTable.toggleRowSelection(row);
-          });
-        } else {
-          this.$refs.multipleTable.clearSelection();
-        }
+      getStatus() {
+        axios.dockerApi.get('/containers/json?all=true').then( res => {
+          this.tableData = res.data
+        }) 
       },
       handleSelectionChange(val) {
         this.multipleSelection = val;
@@ -120,10 +88,28 @@ import axios from '../../http'
         return 'success-row';
       },
       handleStart(index,v) {
-        console.log(index)
+        let api = '/containers'+v.Names+'/start'
+        axios.dockerApi.post(api).then( res => {
+          if(res.status==204) {
+            this.getStatus()
+            this.$message({
+              message: '容器启动成功！',
+              type: 'success'
+            })
+          }
+        })  
       },
       handleStop(index,v) {
-        console.log(index)
+        let api = '/containers'+v.Names+'/stop'
+        axios.dockerApi.post(api).then( res => {
+          if(res.status==204) {
+            this.getStatus()
+            this.$message({
+              message: '容器关闭成功！',
+              type: 'success'
+            })
+          }
+        })         
       },
       handleDel(index,v) {
         console.log(index)
