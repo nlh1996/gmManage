@@ -41,8 +41,8 @@
             placeholder="选择时间">
           </el-Time-select>
         </el-form-item>           
- 
       </el-form>
+
       </el-col>
       <el-col :span="10">
         <el-button style="margin-top:90px" @click="tianjia"><strong>添加服务器</strong></el-button>
@@ -118,7 +118,7 @@ import axios from '../../http'
         }
       },
       handleClick(v) {
-        axios.post('/delArea', {"ChannelName": this.form.ChannelName,"ServerName":v.ServerName})
+        axios.post('/delArea', {"ChannelName": this.form.ChannelName,"ServerName": v.ServerName})
         .then( res => {
           if (res.status == 200) {
             this.serverList = res.data.data
@@ -134,18 +134,21 @@ import axios from '../../http'
   background-color: rgb(120, 144, 156);
   height: 80px;
 }
+
 .form{
   margin: 0;
   padding: 40px;
   background-color: rgb(38, 166, 154);
   height: 260px;
 }
+
 .text{
   margin: 20px;
   float: left;
   font-size: 24px;
   font-weight: bold;
 }
+
 .table{
   margin: 0 auto;
   width: 520px;

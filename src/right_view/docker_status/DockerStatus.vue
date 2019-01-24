@@ -82,10 +82,10 @@ import axios from '../../http'
         }) 
       },
       handleSelectionChange(val) {
-        this.multipleSelection = val;
+        this.multipleSelection = val
       },
       tableRowClassName({row, rowIndex}) {
-        return 'success-row';
+        return 'success-row'
       },
       handleStart(index,v) {
         let api = '/containers'+v.Names+'/start'
@@ -130,6 +130,7 @@ import axios from '../../http'
   font-size: 24px;
   font-weight: bold;
 }
+
 .table{
   margin: 0 auto;
   width: 720px;

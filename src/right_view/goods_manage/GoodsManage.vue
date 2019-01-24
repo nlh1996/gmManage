@@ -100,15 +100,15 @@ export default {
 
 
 <style>
-  .goods{
-    padding: 40px;
-  }
-  .el-message-box__btns .cancel {
-    float: right;
-    margin-left: 10px;
-  }
-  .table{
-    width: 560px;
-    margin: 50px auto;
-  }
+.goods{
+  padding: 40px;
+}
+.el-message-box__btns .cancel {
+  float: right;
+  margin-left: 10px;
+}
+.table{
+  width: 560px;
+  margin: 50px auto;
+}
 </style>

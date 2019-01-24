@@ -81,7 +81,7 @@ axios.defaults.timeout = 10000
 // 用于请求docker的axios实例
 const dockerApi = new axios.create({
   baseURL: '/api',
-  timeout: 20000,
+  timeout: 60000,
   headers: {'Content-Type': 'application/json; charset=UTF-8'}
 }) 
 
