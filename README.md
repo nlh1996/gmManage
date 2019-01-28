@@ -18,7 +18,7 @@ npm run build
 npm run build --report
 ```
 
-* components下是界面得主体结构，包含头部和左侧导航栏。
+* components下是界面的主体结构，包含头部和左侧导航栏。
 * right_view对应左侧导航的具体路由组件，包含项目的主要代码。
 * http下对axios再封装，分默认请求和新建了docker api请求的实例。
 * router下采用了路由懒加载的方式。
