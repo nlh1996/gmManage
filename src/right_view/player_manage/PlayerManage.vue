@@ -38,6 +38,7 @@
             <el-input v-model="formInline.Uid"  style="width: 140px;margin-left:20px;"></el-input>     
           </el-form-item> 
         </el-form>
+        
         <el-button type="success" @click="search">搜索</el-button>
       </div>
 
@@ -107,7 +108,7 @@
     </el-row>
     <hr>
     <el-row>  
-        <div class="table2">
+      <div class="table2">
         <!--表格-->
         <el-table
           :data="tableData_log"
@@ -151,7 +152,7 @@
             width="240">
           </el-table-column>
         </el-table>
-        </div>
+      </div>
     </el-row>
 
   </section>
@@ -187,7 +188,7 @@ import axios from '../../http'
       },
       submit(time,v) {
         this.tableData_show[0].SurplusHour = time
-        this.tableData_show[0].StateStr = v
+        this.tableData_show[0].StateStr = v 
 
         axios.post('/managePlayer',this.tableData_show[0]).then(
           res => {

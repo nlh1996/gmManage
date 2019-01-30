@@ -4,8 +4,7 @@
       <div class="text">容器创建</div>
     </div>
     <div class="form">
-
-      <el-form :model="form" label-position="left" label-width="100px">
+      <el-form label-position="left" label-width="100px">
         <el-col :span="12">
           <el-form-item label="选择服务器:">
             <el-select v-model="form.Channel" placeholder="请选择服务器" class="select">
@@ -21,7 +20,7 @@
 
         <el-col :span="12">
           <el-form-item label="选择镜像:">
-            <el-select v-model="form.Image" placeholder="请选择镜像" class="select">
+            <el-select v-model="config.Image" placeholder="请选择镜像" class="select">
               <el-option
                 v-for="(item,index) in images"
                 :key="index"
@@ -34,25 +33,31 @@
 
         <el-col :span="12">
           <el-form-item label="区服名称:">
-            <el-input v-model.number="form.Area" style="width: 220px;"></el-input>
+            <el-input v-model="form.Area" style="width: 220px;"></el-input>
           </el-form-item>  
         </el-col> 
 
         <el-col :span="12">
           <el-form-item label="容器名称:">
-            <el-input v-model.number="form.Name" style="width: 220px;"></el-input>
+            <el-input v-model="form.Name" style="width: 220px;"></el-input>
           </el-form-item>  
         </el-col> 
 
         <el-col :span="12">
-          <el-form-item label="端口填写:">
-            <el-input v-model.number="form.Port" style="width: 220px;"></el-input>
+          <el-form-item label="端口1填写:">
+            <el-input v-model="form.Port1" style="width: 220px;"></el-input>
+          </el-form-item>  
+        </el-col> 
+        
+        <el-col :span="12">
+          <el-form-item label="端口2填写:">
+            <el-input v-model="form.Port2" style="width: 220px;"></el-input>
           </el-form-item>  
         </el-col> 
       </el-form>
 
       <el-col :span="24">
-        <el-button style="margin-top:30px;" @click="tianjia"><strong>确定创建</strong></el-button>
+        <el-button style="margin-top:30px;" @click="create"><strong>确定创建</strong></el-button>
       </el-col>
     </div>
   </div>
@@ -65,23 +70,28 @@ import axios from '../../http'
       return {
         form: {
           Name: '',
+          Channel: '',
           Area: '',
-          Server: '',
-          Image: '',
-          Port: '',
-        },
+          Port1: '',
+          Port2: '',
+        },        
         images: [],
         serverList: [],
         config: {
-          Hostname: 'abc',
-          Domainname: "hehe",
-          Image: "nginx",
+          Domainname: '123',
+          Image: '',
           ExposedPorts: {
-            "80/tcp": {}
+            "10000/tcp": {},
+            "10001/tcp": {},
           },
           HostConfig: {
+            "Binds": [
+              "/data/bs/mir:/data",
+              "/data/bs/mir/json/private/server_1.json:/data/json/private/server.json"
+            ],
             PortBindings: {
-              "80/tcp": [{HostPort: "12100"}]
+              "10000/tcp": [{HostPort: ''}],
+              "10001/tcp": [{HostPort: ''}],
             }
           },
         }
@@ -91,14 +101,18 @@ import axios from '../../http'
     mounted() {
       axios.dockerApi.get('/images/json').then( res => {
         for(let i=0;i<res.data.length;i++) {
-          this.images.push({name: res.data[i].RepoTags[0]})
+          let index = res.data[i].RepoTags[0].indexOf(':')
+          this.images.push({name: res.data[i].RepoTags[0].substring(0,index)})
         }
       }) 
     },
 
     methods: {
-      tianjia() {
-        axios.dockerApi.post('/containers/create',JSON.stringify(this.config)).then( 
+      create() {
+        this.config.HostConfig.PortBindings["10000/tcp"][0].HostPort = this.form.Port1
+        this.config.HostConfig.PortBindings["10001/tcp"][0].HostPort = this.form.Port2
+        axios.dockerApi.post('/containers/create?name='+this.form.Name,JSON.stringify(this.config))
+        .then( 
           res => {
             if(res.status==201) {
               this.$message({
@@ -107,7 +121,8 @@ import axios from '../../http'
               })
             }
           }
-        ) 
+        )
+        .catch(err => {this.$message.error('创建失败！')}) 
       },
     }
   }

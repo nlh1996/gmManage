@@ -108,11 +108,30 @@ import axios from '../../http'
               message: '容器关闭成功！',
               type: 'success'
             })
-          }
-        })         
+          } 
+        }).catch(err => { 
+          this.$message({
+            message: '容器出现异常！',
+            type: 'warning'
+          })  
+        })        
       },
       handleDel(index,v) {
-        console.log(index)
+        let api = '/containers'+v.Names
+        axios.dockerApi.delete(api).then( res => {
+          if(res.status==204) {
+            this.getStatus()
+            this.$message({
+              message: '删除容器成功！',
+              type: 'success'                
+            })
+          }           
+        }).catch( err => {
+          this.$message({
+            message: '容器仍在运行！',
+            type: 'warning'
+          })
+        })   
       },
     }
   }
