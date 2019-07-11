@@ -9,8 +9,8 @@
           <el-form-item label="选择服务器:">
             <el-select v-model="form.Channel" placeholder="请选择服务器" class="select">
               <el-option
-                v-for="item in serverList"
-                :key="item.Id"
+                v-for="(item,index) in serverList"
+                :key="index"
                 :label="item.ChannelName"
                 :value="item.ChannelName">
               </el-option>

@@ -4,7 +4,7 @@
       <div class="text">开服管理</div>
     </div>
     <div class="form">
-      <el-col :span="14">
+      <el-col :span="12">
       <el-form :model="form" label-position="left" label-width="100px">
         <el-form-item label="选择渠道:">
           <el-select v-model="form.ChannelName" :change="filter(form.ChannelName)" placeholder="请选择渠道" class="select">
@@ -23,32 +23,60 @@
         <el-form-item label="服务器名称:">
           <el-input v-model="form.ServerName" placeholder="输入"></el-input>
         </el-form-item>
-        <el-form-item label="开服时间:">
-          <el-date-picker
-            v-model="form.Data"
-            type="date"
-            value-format="yyyy-MM-dd"
-            placeholder="选择日期">
-          </el-date-picker>
-          
-          <el-Time-select
-            v-model="form.Time"
-            :picker-options="{
-              start: '08:30',
-              step: '00:15',
-              end: '18:30'
-            }"
-            placeholder="选择时间">
-          </el-Time-select>
-        </el-form-item>           
+        <el-form-item label="服务器地址:">
+          <el-input v-model="form.ServerIP" placeholder="输入"></el-input>
+        </el-form-item>         
       </el-form>
-
+      </el-col>
+      <el-col :span="2">
+        &nbsp
       </el-col>
       <el-col :span="10">
-        <el-button style="margin-top:90px" @click="tianjia"><strong>添加服务器</strong></el-button>
+        <el-form :model="form" label-position="left" label-width="100px">
+          <el-form-item label="开服时间:">
+            <el-date-picker
+              v-model="form.Date"
+              type="date"
+              value-format="yyyy-MM-dd"
+              placeholder="选择日期">
+            </el-date-picker>
+            
+            <el-Time-select
+              v-model="form.Time"
+              :picker-options="{
+                start: '08:30',
+                step: '00:15',
+                end: '18:30'
+              }"
+              placeholder="选择时间">
+            </el-Time-select>
+          </el-form-item>  
+
+          <el-form-item label="开区状态:">
+            <el-select v-model="form.ServerState" :change="filter(form.ServerState)" placeholder="请选择状态" class="select">
+              <el-option
+                v-for="item in states"
+                :key="item.id"
+                :label="item.state"
+                :value="item.state">
+              </el-option>
+            </el-select>
+          </el-form-item>
+
+          <el-form-item label="区服标签:">
+            <el-select v-model="form.ServerTag" :change="filter(form.ServerTag)" placeholder="请选择标签" class="select">
+              <el-option
+                v-for="item in tags"
+                :key="item.id"
+                :label="item.tag"
+                :value="item.tag">
+              </el-option>
+            </el-select>
+          </el-form-item>
+          <el-button style="margin-top:0px" @click="addServer"><strong>添加服务器</strong></el-button>
+        </el-form>
       </el-col>
     </div>
-
     <div class="table">
       <div class="text">
         数据列表   
@@ -75,11 +103,16 @@ import axios from '../../http'
         form: {
           ServerId: '',
           ServerName: '',
-          Time: '',
-          Data: '',
+          ServerIP: '',
           ChannelName: '',
+          ServerState: '',
+          ServerTag: '',
+          Time: '',
+          Date: ''
         },
         restaurants: [],
+        states: [{id: 1, state: '维护'},{id: 2, state: '良好'},{id: 3, state: '拥挤'}],
+        tags: [{id: 1, tag: '最新'},{id: 2, tag: '热门'}],
         serverList: [],
         lastname: ''
       }
@@ -94,7 +127,8 @@ import axios from '../../http'
       )
     },
     methods: {
-      tianjia() {
+      addServer() {
+        console.log(this.form)
         axios.post('/addArea', this.form)
         .then( res => {
           if (res.status == 200) {       
@@ -139,7 +173,7 @@ import axios from '../../http'
   margin: 0;
   padding: 40px;
   background-color: rgb(38, 166, 154);
-  height: 260px;
+  height: 300px;
 }
 
 .text{
@@ -155,6 +189,6 @@ import axios from '../../http'
 }
 
 .select{
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 }
 </style>
