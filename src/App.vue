@@ -1,39 +1,63 @@
 <template>
   <div id="app">
     <div class="head-menu">
-      <head-menu></head-menu>
+      <head-menu v-bind:obj="msg" v-on:exit="exit"></head-menu>
     </div>
 
-    <el-row class="main">
-      <el-col :span="4" class="left-menu">
-        <left-menu></left-menu>
-      </el-col>
+    <div v-if="isLogin">
+      <el-row class="main">
+        <el-col :span="4" class="left-menu">
+          <left-menu></left-menu>
+        </el-col>
 
-      <el-col :span="20" class="right-view">
-        <div class="router-view">
-          <transition>
-            <router-view></router-view>
-          </transition>
-        </div>
-      </el-col>
-    </el-row> 
+        <el-col :span="20" class="right-view">
+          <div class="router-view">
+            <transition>
+              <router-view></router-view>
+            </transition>
+          </div>
+        </el-col>
+      </el-row> 
+    </div>
 
+    <div v-else>
+      <login v-on:login="login"></login>
+    </div>
   </div>
 </template>
 
 <script>
 import headMenu from '@/components/HeadMenu'
 import leftMenu from '@/components/LeftMenu'
+import login  from '@/components/Login'
 export default {
   name: 'App',
   data() {
     return {
-      visiable: false
+      visiable: false,
+      isLogin: false,
+      msg: {
+        username: '',
+        state: '未登录'
+      }
     }
   },
   components: {
     headMenu,
     leftMenu,
+    login
+  },
+  methods: {
+    login() {
+      this.msg.username = 'admin',
+      this.msg.state = '退出登录',
+      this.isLogin = true
+    },
+    exit() {
+      this.isLogin = false,
+      this.msg.username = '',
+      this.msg.state = '未登录'
+    }
   }
 }
 </script>

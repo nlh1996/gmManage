@@ -20,7 +20,21 @@
             <el-input v-model="form.Area" placeholder="输入" style="width:90%"></el-input>
           </el-form-item>
           <el-form-item label="有效期:">
-            <el-input v-model="form.Date" placeholder="输入" style="width:90%"></el-input>
+            <!-- <el-input v-model="form.Date" placeholder="输入" style="width:90%"></el-input> -->
+            <el-date-picker
+              style="width:90%"
+              v-model="form.Date1"
+              type="date"
+              value-format="yyyy-MM-dd"
+              placeholder="选择日期">
+            </el-date-picker>
+            <el-date-picker
+              style="width:90%"
+              v-model="form.Date2"
+              type="date"
+              value-format="yyyy-MM-dd"
+              placeholder="选择日期">
+            </el-date-picker>
           </el-form-item>                                        
         </el-col>
 
@@ -95,7 +109,8 @@ import axios from '../../http'
           GiftPackName: '',
           Channel: '',
           Area: '',
-          Date: '',
+          Date1: '',
+          Date2: '',
           Comment: '',
           Items: [{Id: null,Count: null},{Id: null,Count: null},{Id: null,Count: null},{Id: null,Count: null}]
         },

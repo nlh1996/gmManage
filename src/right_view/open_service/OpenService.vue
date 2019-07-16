@@ -53,7 +53,7 @@
           </el-form-item>  
 
           <el-form-item label="开区状态:">
-            <el-select v-model="form.ServerState" :change="filter(form.ServerState)" placeholder="请选择状态" class="select">
+            <el-select v-model="form.ServerState" placeholder="请选择状态" class="select">
               <el-option
                 v-for="item in states"
                 :key="item.id"
@@ -64,7 +64,7 @@
           </el-form-item>
 
           <el-form-item label="区服标签:">
-            <el-select v-model="form.ServerTag" :change="filter(form.ServerTag)" placeholder="请选择标签" class="select">
+            <el-select v-model="form.ServerTag" placeholder="请选择标签" class="select">
               <el-option
                 v-for="item in tags"
                 :key="item.id"
@@ -73,10 +73,12 @@
               </el-option>
             </el-select>
           </el-form-item>
-          <el-button style="margin-top:0px" @click="addServer"><strong>添加服务器</strong></el-button>
+          <el-button @click="addServer"><strong>添加服务器</strong></el-button>
+          <el-button @click="updateServer"><strong>修改设置</strong></el-button>
         </el-form>
       </el-col>
     </div>
+
     <div class="table">
       <div class="text">
         数据列表   
@@ -84,8 +86,9 @@
       <el-table :data="serverList" border height="350" style="width: 100%">
         <el-table-column label="Id" width="80" prop="ServerId"></el-table-column>
         <el-table-column label="服务器名称" width="140" prop="ServerName"></el-table-column>
-        <el-table-column label="开服时间" width="180" prop="Data"></el-table-column>
-        <el-table-column label="渠道管理" width="100">      
+        <el-table-column label="服务器地址" width="180" prop="Address"></el-table-column>
+        <el-table-column label="开服时间" width="180" prop="Date"></el-table-column>
+        <el-table-column label="渠道管理" width="120">      
           <template slot-scope="scope">
             <el-button @click="handleClick(scope.row)" type="text" size="medium">删除</el-button>
           </template>
@@ -158,6 +161,9 @@ import axios from '../../http'
             this.serverList = res.data.data
           }
         })
+      },
+      updateServer() {
+
       }
     }
   }
@@ -185,7 +191,7 @@ import axios from '../../http'
 
 .table{
   margin: 0 auto;
-  width: 520px;
+  width: 720px;
 }
 
 .select{
