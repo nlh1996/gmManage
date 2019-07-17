@@ -26,6 +26,9 @@
         <el-form-item label="服务器地址:">
           <el-input v-model="form.ServerIP" placeholder="输入"></el-input>
         </el-form-item>         
+        <el-form-item label="GM地址:">
+          <el-input v-model="form.GmIP" placeholder="输入"></el-input>
+        </el-form-item>         
       </el-form>
       </el-col>
       <el-col :span="2">
@@ -86,10 +89,12 @@
       <el-table :data="serverList" border height="350" style="width: 100%">
         <el-table-column label="Id" width="80" prop="ServerId"></el-table-column>
         <el-table-column label="服务器名称" width="140" prop="ServerName"></el-table-column>
-        <el-table-column label="服务器地址" width="180" prop="Address"></el-table-column>
-        <el-table-column label="开服时间" width="180" prop="Date"></el-table-column>
-        <el-table-column label="渠道管理" width="120">      
+        <el-table-column label="服务器地址" width="180" prop="ServerIP"></el-table-column>
+        <el-table-column label="服务状态" width="100" prop="ServerState"></el-table-column>
+        <el-table-column label="服务标签" width="100" prop="ServerTag"></el-table-column>
+        <el-table-column label="渠道管理" width="100">      
           <template slot-scope="scope">
+            <el-button @click="handleUpdate(scope.row)" type="text" size="medium">修改</el-button>
             <el-button @click="handleClick(scope.row)" type="text" size="medium">删除</el-button>
           </template>
         </el-table-column>
@@ -104,14 +109,15 @@ import axios from '../../http'
     data() {
       return {
         form: {
+          ChannelName: '',
           ServerId: '',
           ServerName: '',
           ServerIP: '',
-          ChannelName: '',
           ServerState: '',
           ServerTag: '',
           Time: '',
-          Date: ''
+          Date: '',
+          GmIP: ''
         },
         restaurants: [],
         states: [{id: 1, state: '维护'},{id: 2, state: '良好'},{id: 3, state: '拥挤'}],
@@ -131,7 +137,6 @@ import axios from '../../http'
     },
     methods: {
       addServer() {
-        console.log(this.form)
         axios.post('/addArea', this.form)
         .then( res => {
           if (res.status == 200) {       
@@ -163,7 +168,21 @@ import axios from '../../http'
         })
       },
       updateServer() {
-
+        axios.post('/changeArea', this.form)
+        .then( res => {
+          if (res.status == 200) {       
+            this.form = {}
+            this.serverList = res.data.data
+            this.$message({
+              message: '修改成功！',
+              type: 'success'
+            })
+          }
+        })
+      },
+      handleUpdate(data) {
+        let tmp = JSON.stringify(data)
+        this.form = JSON.parse(tmp)
       }
     }
   }

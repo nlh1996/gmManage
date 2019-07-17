@@ -6,7 +6,7 @@
     <div class="form">
 
       <el-form :model="form" label-position="left" label-width="100px">
-        <el-col :span="8">
+        <el-col :span="12">
         <el-form-item label="选择渠道:">
           <el-select v-model="form.Channel" :change="filter1(form.Channel)" placeholder="请选择渠道" class="select">
             <el-option
@@ -18,7 +18,7 @@
           </el-select>
         </el-form-item>
         </el-col>
-        <el-col :span="8">
+        <el-col :span="12">
         <el-form-item label="选择游戏区:">
           <el-select v-model="form.Area" :change="filter2(form.Area)" placeholder="请选择游戏区" class="select">
             <el-option
@@ -30,7 +30,7 @@
           </el-select>
         </el-form-item>
         </el-col>
-        <el-col :span="8">
+        <el-col :span="12">
         <el-form-item label="选择礼包:">
           <el-select v-model="form.GiftPackName"  placeholder="请选择礼包" class="select">
             <el-option
@@ -45,13 +45,33 @@
 
         <el-col :span="12">
           <el-form-item label="兑换码长度:">
-            <el-input v-model.number="form.Len"  style="width: 240px;"></el-input>
+            <el-input v-model.number="form.Len"  style="width: 220px;"></el-input>
           </el-form-item>  
         </el-col> 
 
         <el-col :span="12">
+        <el-form-item label="有效期:">
+          <!-- <el-input v-model="form.Date" placeholder="输入" style="width:90%"></el-input> -->
+          <el-date-picker
+            style="width: 220px;"
+            v-model="form.Date1"
+            type="date"
+            value-format="yyyy-MM-dd"
+            placeholder="选择日期">
+          </el-date-picker>
+          <el-date-picker
+            style="width: 220px;"
+            v-model="form.Date2"
+            type="date"
+            value-format="yyyy-MM-dd"
+            placeholder="选择日期">
+          </el-date-picker>
+        </el-form-item>  
+        </el-col>
+
+        <el-col :span="12">
           <el-form-item label="兑换码数量:">
-            <el-input v-model.number="form.Count"  style="width: 240px;"></el-input>
+            <el-input v-model.number="form.Count"  style="width: 220px;"></el-input>
           </el-form-item>  
         </el-col> 
       </el-form>
@@ -111,6 +131,8 @@ import XLSX from 'xlsx'
           GiftPackName: '',
           Len: null,
           Count: null,
+          Date1: '',
+          Date2: ''
         },
         form2: {
           Channel: '',

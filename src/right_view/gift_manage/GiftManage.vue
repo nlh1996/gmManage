@@ -188,12 +188,13 @@ import axios from '../../http'
 }
 .form{
   margin: 0;
-  padding: 60px;
+  padding: 40px;
   background-color: rgb(38, 166, 154);
-  height: 280px;
+  height: 320px;
 }
 .table{
   width: 95%;
+  padding: 10px;
 }
 
 </style>

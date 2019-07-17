@@ -97,8 +97,6 @@ export default {
 }
 </script>
 
-
-
 <style>
 .goods{
   padding: 40px;
