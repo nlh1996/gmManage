@@ -33,14 +33,19 @@
           <!-- <i class="el-icon-setting"></i> -->
           <span slot="title">兑换码管理</span>
       </el-menu-item>
-      <el-menu-item index="/dockerCreate">
-          <!-- <i class="el-icon-setting"></i> -->
-          <span slot="title">创建游戏区服</span>
+
+      <el-menu-item index="http://212.129.149.224:9100">
+        <a href="http://212.129.149.224:9100" target="_blank" style="color:#303133;text-decoration:none">
+          <span slot="title">Kibana</span>
+        </a>
       </el-menu-item>
-      <el-menu-item index="/dockerStatus">
-          <!-- <i class="el-icon-setting"></i> -->
-          <span slot="title">游戏区服状态</span>
-      </el-menu-item>      
+
+      <el-menu-item index="http://212.129.149.224:9600">
+        <a href="http://212.129.149.224:9600" target="_blank" style="color:#303133;text-decoration:none">          
+          <span slot="title">Portainer</span>
+        </a>
+      </el-menu-item> 
+
     </el-menu>
   </div>
 </template>

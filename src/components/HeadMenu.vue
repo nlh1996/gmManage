@@ -2,7 +2,16 @@
   <div>
     <el-row class="header">
       <el-col :span="8"><div class="text1">GM后台</div></el-col>
-      <el-col :span="14"><div class="text2">用户名：{{this.obj.username}}</div></el-col>
+      <el-col :span="6">
+        <div class="text2">用户名：{{this.obj.username}}</div>
+      </el-col>
+      
+      <el-col :span="8">
+        <div class="text4">
+          <a href="http://212.129.149.224:9100" target="_blank">Kibana</a>
+          <a href="http://212.129.149.224:9600" target="_blank">Portainer</a>
+        </div>
+      </el-col>
       <el-col :span="2"><el-button type="text" class="text3" @click="exit">{{this.obj.state}}</el-button></el-col>
     </el-row>
   </div>
@@ -45,5 +54,18 @@
 .text3{
   font-size: 18px;
   line-height: 30px;
+}
+
+.text4{ 
+  padding-top: 30px;
+  font-size: 16px;
+  line-height: 30px;
+}
+a{
+  color: cadetblue;
+  padding-left: 5px;
+}
+a:hover{
+  color: lightseagreen;
 }
 </style>
