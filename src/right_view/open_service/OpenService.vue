@@ -150,7 +150,7 @@ import axios from '../../http'
       },
       filter(v) {
         if(v != '' && v != this.lastname) {
-          axios.post('/getAreas', {"ChannelName": v})
+          axios.get('/getAreas', {"ChannelName": v})
           .then( res => {
             if (res.status == 200) {
               this.serverList = res.data.data

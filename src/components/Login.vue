@@ -22,7 +22,7 @@
     methods: {
       login() {
         if(this.name == 'admin' && this.pwd == 'admin') {
-          this.$emit('login')
+          this.$emit('loginSucess')
         }
       },
     },

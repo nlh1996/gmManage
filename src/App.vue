@@ -21,7 +21,7 @@
     </div>
 
     <div v-else>
-      <login v-on:login="login"></login>
+      <login v-on:loginSucess="login"></login>
     </div>
   </div>
 </template>
@@ -34,8 +34,7 @@ export default {
   name: 'App',
   data() {
     return {
-      visiable: false,
-      isLogin: false,
+      isLogin: eval(localStorage.getItem('tag')),
       msg: {
         username: '',
         state: '未登录'
@@ -47,18 +46,30 @@ export default {
     leftMenu,
     login
   },
+
+  beforeMount() {
+    this.msg.state = localStorage.getItem('state')
+    this.msg.username = localStorage.getItem('name')
+  },
+  updated() {
+    this.isLogin = eval(localStorage.getItem('tag'))
+    this.msg.state = localStorage.getItem('state')
+    this.msg.username = localStorage.getItem('name')
+  },
   methods: {
     login() {
-      this.msg.username = 'admin',
-      this.msg.state = '退出登录',
       this.isLogin = true
+      localStorage.setItem('tag', this.isLogin)
+      localStorage.setItem('state', '退出登录')
+      localStorage.setItem('name', 'admin')
     },
     exit() {
-      this.isLogin = false,
-      this.msg.username = '',
-      this.msg.state = '未登录'
+      this.isLogin = false
+      localStorage.setItem('tag', this.isLogin)
+      localStorage.setItem('state', '未登录')
+      localStorage.setItem('name', '')
     }
-  }
+  },
 }
 </script>
 
