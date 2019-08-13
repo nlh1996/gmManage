@@ -77,7 +77,7 @@
             </el-select>
           </el-form-item>
           <el-button @click="addServer"><strong>添加服务器</strong></el-button>
-          <el-button @click="updateServer"><strong>修改设置</strong></el-button>
+          <el-button @click="updateServer"><strong>确认修改</strong></el-button>
         </el-form>
       </el-col>
     </div>
@@ -92,7 +92,7 @@
         <el-table-column label="服务器地址" width="180" prop="ServerIP"></el-table-column>
         <el-table-column label="服务状态" width="100" prop="ServerState"></el-table-column>
         <el-table-column label="服务标签" width="100" prop="ServerTag"></el-table-column>
-        <el-table-column label="渠道管理" width="100">      
+        <el-table-column label="服务管理" width="100">      
           <template slot-scope="scope">
             <el-button @click="handleUpdate(scope.row)" type="text" size="medium">修改</el-button>
             <el-button @click="handleClick(scope.row)" type="text" size="medium">删除</el-button>
@@ -136,6 +136,14 @@ import axios from '../../http'
       )
     },
     methods: {
+      getAreas() {
+        axios.get('/getAreas', {"ChannelName": this.form.ChannelName})
+        .then( res => {
+          if (res.status == 200) {
+            this.serverList = res.data.data
+          }
+        })
+      },
       addServer() {
         axios.post('/addArea', this.form)
         .then( res => {
@@ -145,6 +153,9 @@ import axios from '../../http'
               message: '添加成功！',
               type: 'success'
             })
+            this.getAreas()
+          }else {
+            this.$message.error(res.data)
           }
         })
       },
@@ -160,10 +171,14 @@ import axios from '../../http'
         }
       },
       handleClick(v) {
-        axios.post('/delArea', {"ChannelName": this.form.ChannelName,"ServerName": v.ServerName})
+        axios.post('/delArea', {"ChannelName": this.form.ChannelName,"ServerId": v.ServerId})
         .then( res => {
           if (res.status == 200) {
-            this.serverList = res.data.data
+            this.$message({
+              message: '删除成功！',
+              type: 'success'
+            })
+            this.getAreas()
           }
         })
       },
@@ -171,12 +186,13 @@ import axios from '../../http'
         axios.post('/changeArea', this.form)
         .then( res => {
           if (res.status == 200) {       
-            this.form = {}
-            this.serverList = res.data.data
             this.$message({
               message: '修改成功！',
               type: 'success'
             })
+            this.getAreas()
+          }else {
+            this.$message.error(res.data)
           }
         })
       },

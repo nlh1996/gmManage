@@ -139,48 +139,46 @@ import axios from '../../http';
     },
     methods: {
       submit() {
-        axios.post('/addChannel', this.form2).then(
-          res => {
-            if(res.status == 200) {
-              this.$message({
-                message: '添加成功！',
-                type: 'success'
-              })
-              axios.get('/getChannels').then(
-                res => {
-                  if(res.status == 200) {
-                    this.restaurants = res.data.data
-                  }
+        axios.post('/addChannel', this.form2).then( res => {
+          if(res.status == 200) {
+            this.$message({
+              message: '添加成功！',
+              type: 'success'
+            })
+            this.form2.Id = ''
+            this.form2.ChannelName = ''
+            this.form2.LinkmanName = ''
+            this.form2.LinkmanPhone = ''
+            this.form2.Data = ''
+            axios.get('/getChannels').then(
+              res => {
+                if(res.status == 200) {
+                  this.restaurants = res.data.data
                 }
-              )
-            }
+              }
+            )
+          }else {
+            this.$message.error(res.data)
           }
-        )
-        this.form2.Id = ''
-        this.form2.ChannelName = ''
-        this.form2.LinkmanName = ''
-        this.form2.LinkmanPhone = ''
-        this.form2.Data = ''
+        })
       },
       del() {
         if(this.form3.ChannelName) {
-          axios.post('/delChannel', this.form3).then(
-            res => {
-              if(res.status == 200) {
-                for(let i=0;i<this.restaurants.length;i++) {
-                  if(this.restaurants[i].ChannelName == this.form3.ChannelName){
-                    this.restaurants.splice(i,1)
-                    break
-                  }  
-                }
-                this.form3.ChannelName =''
-                this.$message({
-                  message: '删除成功！',
-                  type: 'success'
-                });
+          axios.post('/delChannel', this.form3).then( res => {
+            if(res.status == 200) {
+              for(let i=0;i<this.restaurants.length;i++) {
+                if(this.restaurants[i].ChannelName == this.form3.ChannelName) {
+                  this.restaurants.splice(i,1)
+                  break
+                }  
               }
+              this.form3.ChannelName =''
+              this.$message({
+                message: '删除成功！',
+                type: 'success'
+              });
             }
-          )
+          })
         }
       },
       filter(v) {

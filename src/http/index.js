@@ -71,7 +71,8 @@ axios.interceptors.response.use(response => {
 })
 
 //抽离get,post公共配置
-axios.defaults.baseURL = 'http://212.129.149.224:20000/gm'
+//axios.defaults.baseURL = 'http://212.129.149.224:20000/gm'
+axios.defaults.baseURL = 'http://localhost:3000/gm'
 
 axios.defaults.headers = {
   'X-Requested-With': 'XMLHttpRequest'
