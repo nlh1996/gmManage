@@ -20,7 +20,7 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="渠道ID:">
-              <el-input v-model="form1.Id"  style="width: 220px;"></el-input>
+              <el-input v-model.number="form1.Id"  style="width: 220px;"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -42,7 +42,7 @@
           </el-col>
         </el-row>
         <el-row>
-          <el-col :span="24">
+          <el-col :span="12">
             <el-form-item label="上线日期:">
               <el-date-picker
                 v-model="form1.Data"
@@ -51,7 +51,10 @@
                 value-format="yyyy-MM-dd"
                 placeholder="选择日期">
               </el-date-picker>
-            </el-form-item>                        
+            </el-form-item>                       
+          </el-col>
+          <el-col :span="12">
+            <el-button @click="updateChannel"><strong>确认修改</strong></el-button>
           </el-col>
         </el-row>
       </el-form>
@@ -81,6 +84,7 @@
             placeholder="选择日期">
           </el-date-picker>
         </el-form-item> 
+
         <el-form-item>
           <el-button @click="submit" size="medium">确定</el-button>
         </el-form-item>                
@@ -158,7 +162,7 @@ import axios from '../../http';
               }
             )
           }else {
-            this.$message.error(res.data)
+            this.$message.error(res.data.msg)
           }
         })
       },
@@ -188,9 +192,21 @@ import axios from '../../http';
             return
           }
         }
+      },
+      updateChannel() {
+        axios.post('/changeChannel', this.form1).then ( res => {
+          if(res.status == 200) {
+            this.$message({
+              message: '删除成功！',
+              type: 'success'
+            });
+            this.form1 = {}
+          }else {
+            this.$message.error(res.data.msg)
+          }
+        })
       }
     },        
-
 }
 </script>
 

@@ -40,30 +40,30 @@
 
         <el-col :span="8">
           <el-form-item label="物品1ID:">
-            <el-input v-model.number="form.Items.Id" placeholder="输入" style="width:90%"></el-input>
+            <el-input v-model.number="form.Items[0].Id" placeholder="输入" style="width:90%"></el-input>
           </el-form-item>
           <el-form-item label="物品1数量:">
-            <el-input v-model.number="form.Items.Count" placeholder="输入" style="width:90%"></el-input>
+            <el-input v-model.number="form.Items[0].Count" placeholder="输入" style="width:90%"></el-input>
           </el-form-item>
           <el-form-item label="物品2ID:">
-            <el-input v-model.number="form.Items.Id" placeholder="输入" style="width:90%"></el-input>
+            <el-input v-model.number="form.Items[1].Id" placeholder="输入" style="width:90%"></el-input>
           </el-form-item>
           <el-form-item label="物品2数量:">
-            <el-input v-model.number="form.Items.Count" placeholder="输入" style="width:90%"></el-input>
+            <el-input v-model.number="form.Items[1].Count" placeholder="输入" style="width:90%"></el-input>
           </el-form-item>
           <el-form-item label="物品3ID:">
-            <el-input v-model.number="form.Items.Id" placeholder="输入" style="width:90%"></el-input>
+            <el-input v-model.number="form.Items[2].Id" placeholder="输入" style="width:90%"></el-input>
           </el-form-item>          
         </el-col>
         <el-col :span="8">
           <el-form-item label="物品3数量:">
-            <el-input v-model.number="form.Items.Count" placeholder="输入" style="width:90%"></el-input>
+            <el-input v-model.number="form.Items[2].Count" placeholder="输入" style="width:90%"></el-input>
           </el-form-item> 
           <el-form-item label="物品4ID:">
-            <el-input v-model.number="form.Items.Id" placeholder="输入" style="width:90%"></el-input>
+            <el-input v-model.number="form.Items[3].Id" placeholder="输入" style="width:90%"></el-input>
           </el-form-item> 
           <el-form-item label="物品4数量:">
-            <el-input v-model.number="form.Items.Count" placeholder="输入" style="width:90%"></el-input>
+            <el-input v-model.number="form.Items[3].Count" placeholder="输入" style="width:90%"></el-input>
           </el-form-item>
           <el-form-item label="描述:">
             <el-input v-model="form.Comment" placeholder="输入" style="width:90%"></el-input>
@@ -154,12 +154,12 @@ import axios from '../../http'
             this.tableData2 = []
             this.getGiftPack()
           }else{
-            this.$message.error(res.data.err);
+            this.$message.error(res.data.msg)
           }
         })
       },
       handleClick(v) {
-        axios.post('/delGiftPack', {"GiftPackName": v.GiftPackName})
+        axios.post('/delGiftPack', {"GiftPackId": v.GiftPackId})
         .then( res => {
           if (res.status == 200) {
             this.$message({
@@ -168,6 +168,8 @@ import axios from '../../http'
             })
             this.tableData2 = []
             this.getGiftPack()
+          }else {
+            this.$message.error(res.data.msg)
           }
         })
       }

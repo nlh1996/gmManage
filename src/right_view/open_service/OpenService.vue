@@ -155,7 +155,7 @@ import axios from '../../http'
             })
             this.getAreas()
           }else {
-            this.$message.error(res.data)
+            this.$message.error(res.data.msg)
           }
         })
       },
@@ -192,7 +192,7 @@ import axios from '../../http'
             })
             this.getAreas()
           }else {
-            this.$message.error(res.data)
+            this.$message.error(res.data.msg)
           }
         })
       },

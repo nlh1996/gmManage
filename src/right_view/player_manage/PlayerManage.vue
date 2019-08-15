@@ -9,7 +9,7 @@
         <el-form :inline="true" :model="formInline" class="demo-form-inline">
 
         <el-form-item label="选择渠道:">
-          <el-select v-model="formInline.Channel" placeholder="请选择渠道" style="width: 140px;">
+          <el-select v-model="formInline.Channel" :change="filter(formInline.Channel)" placeholder="请选择渠道" style="width: 140px;">
             <el-option
               v-for="item in channels"
               :key="item.Id"
@@ -20,7 +20,7 @@
         </el-form-item>
 
         <el-form-item label="选择区服:">
-          <el-select v-model="formInline.Area" placeholder="请选择游戏区" style="width: 140px;">
+          <el-select v-model="formInline.Area"  placeholder="请选择游戏区" style="width: 140px;">
             <el-option
               v-for="item in areas"
               :key="item.Id"
@@ -173,10 +173,32 @@ import axios from '../../http'
         tableData_show: [],
         tableData_log: [],
         channels: [],
-        areas: []
+        areas: [],
+        lastname: ''
       }
     },
+    mounted() {
+      axios.get('/getChannels').then(
+        res => {
+          if(res.status == 200) {
+            this.channels = res.data.data
+          }
+        }
+      )
+    },
     methods: {
+      filter(v) {
+        if(v != '' && v != this.lastname) {
+          axios.get('/getAreas', {"ChannelName": v})
+          .then( res => {
+            if (res.status == 200) {
+              this.areas = res.data.data
+              this.lastname = v
+            }
+          })
+        }
+      },
+
       search() {
         axios.post('/findPlayer',this.formInline).then(
           res => {

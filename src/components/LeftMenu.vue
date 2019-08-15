@@ -34,13 +34,13 @@
           <span slot="title">兑换码管理</span>
       </el-menu-item>
 
-      <el-menu-item index="http://212.129.149.224:9100">
+      <el-menu-item index="">
         <a href="http://212.129.149.224:9100" target="_blank" style="color:#303133;text-decoration:none">
           <span slot="title">Kibana</span>
         </a>
       </el-menu-item>
 
-      <el-menu-item index="http://212.129.149.224:9600">
+      <el-menu-item index="">
         <a href="http://212.129.149.224:9600" target="_blank" style="color:#303133;text-decoration:none">          
           <span slot="title">Portainer</span>
         </a>

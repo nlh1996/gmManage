@@ -13,12 +13,12 @@
           </el-col>
           <el-col :span="8">
             <el-form-item label="选择渠道:">
-              <el-select v-model="form.Channel" style="width:90%">
+              <el-select v-model="form.Channel" :change="filter(form.Channel)" style="width:90%">
                 <el-option
-                  v-for="(item,id) in giftList"
-                  :key="id"
-                  :label="item.GiftPackName"
-                  :value="item.GiftPackName">
+                  v-for="item in channels"
+                  :key="item.Id"
+                  :label="item.ChannelName"
+                  :value="item.ChannelName">
                 </el-option>
               </el-select>
             </el-form-item>
@@ -27,10 +27,10 @@
             <el-form-item label="选择区服:">
               <el-select v-model="form.Area" style="width:90%">
                 <el-option
-                  v-for="(item,id) in giftList"
-                  :key="id"
-                  :label="item.GiftPackName"
-                  :value="item.GiftPackName">
+                  v-for="item in areas"
+                  :key="item.Id"
+                  :label="item.ServerName"
+                  :value="item.ServerName">
                 </el-option>
               </el-select>
             </el-form-item>
@@ -156,16 +156,36 @@ import axios from '../../http'
           FullService: false,
         },
         tableData: [],
-        giftList: []
+        giftList: [],
+        channels: [],
+        areas: [],
+        lastname: ''
       }
     },  
     mounted() {
+      axios.get('/getChannels').then(
+        res => {
+          if(res.status == 200) {
+            this.channels = res.data.data
+          }
+        }
+      ),
       axios.get('/getGiftPack').then( res=> {
         this.giftList = res.data.data
-        this.giftList.push({})
-      })
+      }) 
     },
     methods: {
+      filter(v) {
+        if(v != '' && v != this.lastname) {
+          axios.get('/getAreas', {"ChannelName": v})
+          .then( res => {
+            if (res.status == 200) {
+              this.areas = res.data.data
+              this.lastname = v
+            }
+          })
+        }
+      },
       submit() {
         axios.post('/sendEmail',this.form)
         .then( res=>{
