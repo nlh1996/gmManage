@@ -90,14 +90,15 @@
             <el-form-item label="定时发送:">
               <el-date-picker
                 style="width:180px"
-                v-model="form.data"
+                v-model="form.Date"
                 type="date"
+                value-format="yyyy-MM-dd"
                 placeholder="选择日期">
               </el-date-picker>
               
               <el-time-select
                 style="width:180px;"
-                v-model="form.time"
+                v-model="form.Time"
                 :picker-options="{
                   start: '08:30',
                   step: '00:15',
@@ -154,6 +155,8 @@ import axios from '../../http'
           Area: '',
           Items: [{Id:null,Count:null},{Id:null,Count:null}],
           FullService: false,
+          Date: '',
+          Time: ''
         },
         tableData: [],
         giftList: [],
@@ -177,6 +180,7 @@ import axios from '../../http'
     methods: {
       filter(v) {
         if(v != '' && v != this.lastname) {
+          this.form.Area = ''
           axios.get('/getAreas', {"ChannelName": v})
           .then( res => {
             if (res.status == 200) {
@@ -195,7 +199,7 @@ import axios from '../../http'
               type: 'success'
             })
           }else {
-            this.$message.error(res.data.err);
+            this.$message.error(res.data.msg);
           }
         })
       }

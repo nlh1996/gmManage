@@ -42,12 +42,12 @@
           </el-select>
         </el-form-item>
         </el-col>
-
         <el-col :span="12">
-          <el-form-item label="兑换码长度:">
-            <el-input v-model.number="form.Len"  style="width: 220px;"></el-input>
+          <el-form-item label="兑换码数量:">
+            <el-input v-model.number="form.Count"  style="width: 220px;"></el-input>
           </el-form-item>  
         </el-col> 
+
 
         <el-col :span="12">
         <el-form-item label="有效期:">
@@ -69,14 +69,9 @@
         </el-form-item>  
         </el-col>
 
-        <el-col :span="12">
-          <el-form-item label="兑换码数量:">
-            <el-input v-model.number="form.Count"  style="width: 220px;"></el-input>
-          </el-form-item>  
-        </el-col> 
       </el-form>
 
-      <el-col :span="24">
+      <el-col :span="12">
         <el-button style="margin-top:30px;" @click="tianjia"><strong>一键生成</strong></el-button>
       </el-col>
     </div>
@@ -104,7 +99,7 @@
       <el-table :data="tablelist" border height="350" style="width: 100%" id="out-table">
         <el-table-column label="渠道" width="100" prop="Channel"></el-table-column>
         <el-table-column label="游戏区服" width="100" prop="Area"></el-table-column>
-        <el-table-column label="礼包名" width="120" prop="GiftPackName"></el-table-column>
+        <el-table-column label="礼包名" width="135" prop="GiftPackName"></el-table-column>
         <el-table-column label="兑换码" width="200" prop="Code"></el-table-column>
         <el-table-column label="使用情况" width="80" prop="Used">
           <template slot-scope="scope" v-if="scope.row.Used == false">
@@ -129,7 +124,6 @@ import XLSX from 'xlsx'
           Channel: '',
           Area: '',
           GiftPackName: '',
-          Len: null,
           Count: null,
           Date1: '',
           Date2: ''
@@ -174,7 +168,7 @@ import XLSX from 'xlsx'
       filter1(v) {
         if(v != '' && v != this.lastChannel) {
           this.form.Area = ''
-          axios.post('/getAreas', {"ChannelName": v})
+          axios.get('/getAreas', {"ChannelName": v})
           .then( res => {
             if (res.status == 200) {
               this.areas = res.data.data
@@ -185,7 +179,7 @@ import XLSX from 'xlsx'
       },
       filter2(v) {
         if(v != '' && v != this.lastArea) {
-          axios.get('/getGiftPack').then( res=> {
+          axios.get('/getGiftPacks').then( res=> {
             this.gifts = res.data.data
             this.lastArea = v
           }) 
@@ -193,8 +187,8 @@ import XLSX from 'xlsx'
       },
       filter3(v) {
         if(v != '' && v != this.lastChannel2) {
-          this.form.Area = ''
-          axios.post('/getAreas', {"ChannelName": v})
+          this.form2.Area = ''
+          axios.get('/getAreas', {"ChannelName": v})
           .then( res => {
             if (res.status == 200) {
               this.areas2 = res.data.data
@@ -205,7 +199,7 @@ import XLSX from 'xlsx'
       },
       filter4(v) {
         if(v != '' && v != this.lastArea2) {
-          axios.post('/getRedeemCodes', this.form2).then( res=> {
+          axios.get('/getGiftPacks').then( res=> {
             this.tablelist = res.data.data
             this.lastArea2 = v
           }) 

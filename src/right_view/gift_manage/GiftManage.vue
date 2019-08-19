@@ -13,12 +13,7 @@
           <el-form-item label="礼包名称:">
             <el-input v-model="form.GiftPackName" placeholder="输入" style="width:90%"></el-input>
           </el-form-item>
-          <el-form-item label="所属渠道:">
-            <el-input v-model="form.Channel" placeholder="输入" style="width:90%"></el-input>
-          </el-form-item>
-          <el-form-item label="所属区服:">
-            <el-input v-model="form.Area" placeholder="输入" style="width:90%"></el-input>
-          </el-form-item>
+
           <el-form-item label="有效期:">
             <!-- <el-input v-model="form.Date" placeholder="输入" style="width:90%"></el-input> -->
             <el-date-picker
@@ -35,7 +30,10 @@
               value-format="yyyy-MM-dd"
               placeholder="选择日期">
             </el-date-picker>
-          </el-form-item>                                        
+          </el-form-item>      
+          <el-form-item label="描述:">
+            <el-input v-model="form.Comment" placeholder="输入" style="width:90%"></el-input>
+          </el-form-item>                                  
         </el-col>
 
         <el-col :span="8">
@@ -45,29 +43,28 @@
           <el-form-item label="物品1数量:">
             <el-input v-model.number="form.Items[0].Count" placeholder="输入" style="width:90%"></el-input>
           </el-form-item>
+          <el-form-item label="物品3ID:">
+            <el-input v-model.number="form.Items[2].Id" placeholder="输入" style="width:90%"></el-input>
+          </el-form-item>  
+          <el-form-item label="物品3数量:">
+            <el-input v-model.number="form.Items[2].Count" placeholder="输入" style="width:90%"></el-input>
+          </el-form-item> 
+        </el-col>
+
+        <el-col :span="8">
           <el-form-item label="物品2ID:">
             <el-input v-model.number="form.Items[1].Id" placeholder="输入" style="width:90%"></el-input>
           </el-form-item>
           <el-form-item label="物品2数量:">
             <el-input v-model.number="form.Items[1].Count" placeholder="输入" style="width:90%"></el-input>
-          </el-form-item>
-          <el-form-item label="物品3ID:">
-            <el-input v-model.number="form.Items[2].Id" placeholder="输入" style="width:90%"></el-input>
-          </el-form-item>          
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="物品3数量:">
-            <el-input v-model.number="form.Items[2].Count" placeholder="输入" style="width:90%"></el-input>
-          </el-form-item> 
+          </el-form-item>  
           <el-form-item label="物品4ID:">
             <el-input v-model.number="form.Items[3].Id" placeholder="输入" style="width:90%"></el-input>
           </el-form-item> 
           <el-form-item label="物品4数量:">
             <el-input v-model.number="form.Items[3].Count" placeholder="输入" style="width:90%"></el-input>
           </el-form-item>
-          <el-form-item label="描述:">
-            <el-input v-model="form.Comment" placeholder="输入" style="width:90%"></el-input>
-          </el-form-item>
+
           <el-button style="margin-top:5px" @click="addGiftPack"><strong>添加礼包</strong></el-button>          
         </el-col>
       </el-form>
@@ -79,8 +76,6 @@
           <el-table-column label="id" width="80" prop="GiftPackId" fixed></el-table-column>
           <el-table-column label="名称" width="100" prop="GiftPackName" fixed></el-table-column>
           <el-table-column label="描述" width="200" prop="Comment"></el-table-column>
-          <el-table-column label="所属渠道" width="100" prop="Channel"></el-table-column>
-          <el-table-column label="所属区服" width="100" prop="Area"></el-table-column>
           <el-table-column label="物品1" width="90" prop="Good1Name"></el-table-column>
           <el-table-column label="数量1" width="90" prop="Good1Num"></el-table-column>
           <el-table-column label="物品2" width="90" prop="Good2Name"></el-table-column>
@@ -107,22 +102,28 @@ import axios from '../../http'
         form: {
           GiftPackId: '',
           GiftPackName: '',
-          Channel: '',
-          Area: '',
           Date1: '',
           Date2: '',
           Comment: '',
           Items: [{Id: null,Count: null},{Id: null,Count: null},{Id: null,Count: null},{Id: null,Count: null}]
         },
-        tableData2: []
+        tableData2: [],
+        goods: []
       }
     },
+
     mounted() {
       this.getGiftPack() 
+      axios.get('/getItems').then( res => {
+        if(res.status == 200) {
+          this.goods = res.data.data
+        }
+      })
     },
+
     methods: {
       getGiftPack() {
-        axios.get('/getGiftPack').then( res=> {
+        axios.get('/getGiftPacks').then( res=> {
           let list = res.data.data
           for(let i=0;i<list.length;i++) {
             let tableData = {GiftPackId:'',GiftPackName:'',Comment:'',Channel:'',Area:'',Good1Name:'',
@@ -130,8 +131,6 @@ import axios from '../../http'
             tableData.GiftPackId = list[i].GiftPackId
             tableData.GiftPackName = list[i].GiftPackName
             tableData.Comment = list[i].Comment
-            tableData.Channel = list[i].Channel
-            tableData.Area = list[i].Area
             tableData.Good1Name = list[i].Items[0].Name
             tableData.Good1Num = list[i].Items[0].Count
             tableData.Good2Name = list[i].Items[1].Name
@@ -145,6 +144,25 @@ import axios from '../../http'
         })        
       },
       addGiftPack() {
+        if(this.form.GiftPackId == '') {
+          this.$message.error("请填写礼包id")
+          return
+        }
+        if(this.form.GiftPackName == '') {
+          this.$message.error("请填写礼包名称")
+          return
+        }
+        for(let i = 0; i<this.form.Items.length; i++) {
+          for(let j = 0; j<this.goods.length; j++) {
+            if(this.goods[j].Id == this.form.Items[i].Id || this.form.Items[i].Id == null) {
+              break
+            }
+            if(j == this.goods.length-1) {
+              this.$message.error('无效物品id:'+ this.form.Items[i].Id)
+              return
+            }
+          }
+        }
         axios.post('/addGiftPack', this.form).then( res=> {
           if (res.status == 200) {
             this.$message({
