@@ -54,14 +54,14 @@
           <!-- <el-input v-model="form.Date" placeholder="输入" style="width:90%"></el-input> -->
           <el-date-picker
             style="width: 220px;"
-            v-model="form.Date1"
+            v-model="form.Start"
             type="date"
             value-format="yyyy-MM-dd"
             placeholder="选择日期">
           </el-date-picker>
           <el-date-picker
             style="width: 220px;"
-            v-model="form.Date2"
+            v-model="form.End"
             type="date"
             value-format="yyyy-MM-dd"
             placeholder="选择日期">
@@ -87,7 +87,7 @@
             :value="item.ChannelName">
           </el-option>
         </el-select> 
-        <el-select v-model="form2.Area" placeholder="请选择游戏区" :change="filter4(form2.Area)" class="select">
+        <el-select v-model="form2.Area" placeholder="请选择游戏区" :change="filter4(form2)" class="select">
           <el-option
             v-for="item in areas2"
             :key="item.Id"
@@ -100,8 +100,8 @@
         <el-table-column label="渠道" width="100" prop="Channel"></el-table-column>
         <el-table-column label="游戏区服" width="100" prop="Area"></el-table-column>
         <el-table-column label="礼包名" width="135" prop="GiftPackName"></el-table-column>
-        <el-table-column label="兑换码" width="200" prop="Code"></el-table-column>
-        <el-table-column label="使用情况" width="80" prop="Used">
+        <el-table-column label="兑换码" width="180" prop="Code"></el-table-column>
+        <el-table-column label="使用情况" width="100" prop="Used">
           <template slot-scope="scope" v-if="scope.row.Used == false">
             <div v-if="scope.row.Used == false">未使用</div>
             <div v-else>已使用</div>
@@ -125,8 +125,8 @@ import XLSX from 'xlsx'
           Area: '',
           GiftPackName: '',
           Count: null,
-          Date1: '',
-          Date2: ''
+          Start: '',
+          End: ''
         },
         form2: {
           Channel: '',
@@ -157,7 +157,6 @@ import XLSX from 'xlsx'
         axios.post('/addRedeemCodes', this.form)
         .then( res => {
           if (res.status == 200) {       
-            this.tablelist = res.data.data
             this.$message({
               message: '添加成功！',
               type: 'success'
@@ -198,10 +197,12 @@ import XLSX from 'xlsx'
         }
       },
       filter4(v) {
-        if(v != '' && v != this.lastArea2) {
-          axios.get('/getGiftPacks').then( res=> {
+        if(v.Area != '' && v.Area != this.lastArea2) {
+          console.log(v)
+          let data = 'channel='+v.Channel+'&area='+v.Area
+          axios.get('/getRedeemCodes?'+data).then( res=> {
             this.tablelist = res.data.data
-            this.lastArea2 = v
+            this.lastArea2 = v.Area
           }) 
         }
       },
