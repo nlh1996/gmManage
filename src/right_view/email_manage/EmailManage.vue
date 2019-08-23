@@ -127,13 +127,13 @@
     <div class="table">
       <div class="text">数据列表</div>
         <el-table :data="tableData" border height="280" style="width: 100%">
-          <el-table-column label="id" width="80"></el-table-column>
-          <el-table-column label="名称" width="150" prop="name"></el-table-column>
-          <el-table-column label="内容" width="300" prop="time"></el-table-column>
-          <el-table-column label="定时发放" width="150" prop="way"></el-table-column>
-          <el-table-column label="礼包id" width="100" prop="way"></el-table-column>
-          <el-table-column label="所属区服" width="120" prop="way"></el-table-column>
-          <el-table-column label="对象id" width="120" prop="way"></el-table-column>
+          <el-table-column label="id" width="120" prop="ID"></el-table-column>
+          <el-table-column label="邮件标题" width="150" prop="Title"></el-table-column>
+          <el-table-column label="内容" width="340" prop="Content"></el-table-column>
+          <el-table-column label="定时发放" width="150" prop="Time"></el-table-column>
+          <el-table-column label="礼包名" width="100" prop="GiftPackName"></el-table-column>
+          <el-table-column label="所属区服" width="120" prop="Channel"></el-table-column>
+          <el-table-column label="对象昵称" width="120" prop="ReceiverName"></el-table-column>
         </el-table>      
     </div>
   </div>
@@ -173,11 +173,26 @@ import axios from '../../http'
           }
         }
       ),
-      axios.get('/getGiftPack').then( res=> {
+      axios.get('/getGiftPacks').then( res=> {
         this.giftList = res.data.data
       }) 
+      this.getEmails()
     },
     methods: {
+      getEmails() {
+        axios.get('/getEmails').then( res=> {
+          let data = res.data.data
+          for (let i=0; i<data.length; i++) {
+            data[i].Email.Time = data[i].Email.Date + ' ' + data[i].Email.Time
+            data[i].Email.ID = data[i].ID
+            data[i].Email.Channel = data[i].Email.Channel + ' ' + data[i].Email.Area
+            for (let j=0; j<data[i].Email.Items.length; j++) {
+              data[i].Email.Content = data[i].Email.Content + '物品:' +  data[i].Email.Items[j].Id + ',数量:' + data[i].Email.Items[j].Count + ';'
+            }
+            this.tableData.push(data[i].Email)
+          }
+        }) 
+      },
       filter(v) {
         if(v != '' && v != this.lastname) {
           this.form.Area = ''
@@ -198,6 +213,7 @@ import axios from '../../http'
               message: '邮件发送成功！',
               type: 'success'
             })
+            this.getEmails()
           }else {
             this.$message.error(res.data.msg);
           }
@@ -225,6 +241,6 @@ import axios from '../../http'
 }
 .table{
   margin: 50px auto;
-  width: 80%;
+  width: 90%;
 }
 </style>

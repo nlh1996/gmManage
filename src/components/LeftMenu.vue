@@ -34,6 +34,11 @@
           <span slot="title">兑换码管理</span>
       </el-menu-item>
 
+      <el-menu-item index="/logs">
+          <!-- <i class="el-icon-setting"></i> -->
+          <span slot="title">日志查看</span>
+      </el-menu-item>
+
       <el-menu-item index="">
         <a href="http://212.129.149.224:9100" target="_blank" style="color:#303133;text-decoration:none">
           <span slot="title">Kibana</span>

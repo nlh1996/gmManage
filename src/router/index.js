@@ -7,6 +7,7 @@ const openService = () => import('@/right_view/open_service/OpenService')
 const giftManage = () => import('@/right_view/gift_manage/GiftManage')
 const emailManage = () => import('@/right_view/email_manage/EmailManage')
 const codeManage = () => import('@/right_view/code_manage/CodeManage')
+const logs = () => import('@/right_view/logs/LogManage')
 // const dockerCreate = () => import('@/right_view/docker_create/DockerCreate')
 // const dockerStatus = () => import('@/right_view/docker_status/DockerStatus')
 Vue.use(Router)
@@ -48,6 +49,11 @@ export default new Router({
       name: 'codeManage',
       component: codeManage
     }, 
+    {
+      path: '/logs',
+      name: 'logs',
+      component: logs
+    }
     // {
     //   path: '/dockerCreate',
     //   name: 'dockerCreate',
