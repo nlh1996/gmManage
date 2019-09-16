@@ -3,6 +3,7 @@
     <div class="head">
       <div class="text">邮件管理</div>
     </div>
+
     <div class="form">
       <el-form :model="form" label-position="left" label-width="120px">
         <el-row>
@@ -36,17 +37,20 @@
             </el-form-item>
           </el-col>
         </el-row>
+        
         <el-row>
           <el-col :span="8">
             <el-form-item label="发件对象昵称:">
-              <el-input v-model="form.ReceiverName " placeholder="输入" style="width:90%"></el-input>
+              <el-input v-model="form.ReceiverName" placeholder="输入" style="width:90%"></el-input>
             </el-form-item>
           </el-col>
+
           <el-col :span="8">
             <el-form-item label="发件对象id:">
-              <el-input v-model="form.ReceiverUid " placeholder="输入" style="width:90%"></el-input>
+              <el-input v-model="form.ReceiverUid" placeholder="输入" style="width:90%"></el-input>
             </el-form-item>
           </el-col>
+
           <el-col :span="8">
             <el-form-item label="选择礼包:">
               <el-select v-model="form.GiftPackName" style="width:90%">
@@ -85,6 +89,7 @@
             </el-form-item>
           </el-col>
         </el-row>
+
         <el-row>
           <el-col :span="8">
             <el-form-item label="定时发送:">
@@ -108,6 +113,7 @@
               </el-time-select>
             </el-form-item>
           </el-col>
+
           <el-col :span="10">
             <el-form-item label="邮件内容:">
               <el-input
@@ -124,6 +130,7 @@
         </el-row>       
       </el-form>
     </div>
+    
     <div class="table">
       <div class="text">数据列表</div>
         <el-table :data="tableData" border height="280" style="width: 100%">

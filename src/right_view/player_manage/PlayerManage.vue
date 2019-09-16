@@ -177,6 +177,7 @@ import axios from '../../http'
         lastname: ''
       }
     },
+    
     mounted() {
       axios.get('/getChannels').then(
         res => {
@@ -189,6 +190,7 @@ import axios from '../../http'
     methods: {
       filter(v) {
         if(v != '' && v != this.lastname) {
+          this.formInline.Area = ''
           axios.get('/getAreas', {"ChannelName": v})
           .then( res => {
             if (res.status == 200) {
@@ -208,6 +210,7 @@ import axios from '../../http'
           }
         )
       },
+
       submit(time,v) {
         this.tableData_show[0].SurplusHour = time
         this.tableData_show[0].StateStr = v 

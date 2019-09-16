@@ -9,6 +9,7 @@
         :data="tableData"
         tooltip-effect="dark"
         style="width: 100%"
+        height="600"
         :row-class-name="tableRowClassName"
         @selection-change="handleSelectionChange">
 

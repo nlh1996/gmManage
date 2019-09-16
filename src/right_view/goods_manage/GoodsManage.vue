@@ -29,6 +29,7 @@
             label="id"
             width="180">
           </el-table-column>
+          
           <el-table-column
             prop="Name"
             label="名称"
@@ -68,14 +69,14 @@ export default {
         if(this.formInline.Name) {
           for(let i=0;i<this.tableData2.length;i++) {
             //如果字符串中不包含目标字符会返回-1
-            if(this.tableData2[i].Name.indexOf(this.formInline.Name)>=0){
+            if(this.tableData2[i].Name.indexOf(this.formInline.Name)>=0) {
               this.searchList.push(this.tableData2[i])
             }
           }
           this.formInline.Name = ''
         }else{
           for(let i=0;i<this.tableData2.length;i++) {
-            if(this.tableData2[i].Id == this.formInline.Id){
+            if(this.tableData2[i].Id == this.formInline.Id) {
               this.searchList.push(this.tableData2[i])
               break
             }

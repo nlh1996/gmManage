@@ -37,6 +37,7 @@
   margin: 0;
   background-color: rgb(172, 169, 172);
 }
+
 .login{
   position: absolute;
   top: 50%;
@@ -45,16 +46,19 @@
   width: 300px;
   height: 300px;
 }
+
 .login h1{
-    color: #fff;
-    text-shadow:0 0 10px;
-    letter-spacing: 1px;
-    text-align: center;
+  color: #fff;
+  text-shadow:0 0 10px;
+  letter-spacing: 1px;
+  text-align: center;
 }
+
 h1{
-    font-size: 2em;
-    margin: 0.67em 0;
+  font-size: 2em;
+  margin: 0.67em 0;
 }
+
 input{
   width: 278px;
   height: 18px;
@@ -71,6 +75,7 @@ input{
   border-radius: 4px;
   background-color: #2D2D3F;
 }
+
 .but{
   width: 300px;
   min-height: 20px;
