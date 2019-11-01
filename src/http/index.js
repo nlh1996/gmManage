@@ -6,14 +6,14 @@ let cancel ,promiseArr = {}
 const CancelToken = axios.CancelToken;
 //请求拦截器
 axios.interceptors.request.use(config => {
-    //发起请求时，取消掉当前正在进行的相同请求
-    if (promiseArr[config.url]) {
-        promiseArr[config.url]('操作取消')
-        promiseArr[config.url] = cancel
-    } else {
-        promiseArr[config.url] = cancel
-    }
-      return config
+  //发起请求时，取消掉当前正在进行的相同请求
+  if (promiseArr[config.url]) {
+      promiseArr[config.url]('操作取消')
+      promiseArr[config.url] = cancel
+  } else {
+      promiseArr[config.url] = cancel
+  }
+    return config
 }, error => {
     return Promise.reject(error)
 })
@@ -71,7 +71,8 @@ axios.interceptors.response.use(response => {
 })
 
 //抽离get,post公共配置
-axios.defaults.baseURL = 'https://www.yinghuo2018.com:20000/gm'
+//axios.defaults.baseURL = 'https://www.yinghuo2018.com:20000/gm'
+axios.defaults.baseURL = 'http://192.168.1.11:3000/gm'
 
 axios.defaults.headers = {
   'X-Requested-With': 'XMLHttpRequest'

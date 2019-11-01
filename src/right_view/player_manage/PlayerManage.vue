@@ -20,7 +20,7 @@
         </el-form-item>
 
         <el-form-item label="选择区服:">
-          <el-select v-model="formInline.Area"  placeholder="请选择游戏区" style="width: 140px;">
+          <el-select v-model="formInline.Area"  :change="filter2(formInline.Area)" placeholder="请选择游戏区" style="width: 140px;">
             <el-option
               v-for="item in areas"
               :key="item.Id"
@@ -35,7 +35,7 @@
           </el-form-item> 
 
           <el-form-item label="玩家id:">
-            <el-input v-model="formInline.Uid"  style="width: 140px;margin-left:20px;"></el-input>     
+            <el-input v-model.number="formInline.Uid"  style="width: 140px;margin-left:20px;"></el-input>     
           </el-form-item> 
         </el-form>
         
@@ -104,7 +104,7 @@
     </el-row>
 
     <el-row>
-        <div class="text">操作记录</div>
+      <div class="text">操作记录</div>
     </el-row>
     <hr>
     <el-row>  
@@ -167,14 +167,15 @@ import axios from '../../http'
           Channel: '',
           Area: '',
           NickName: '',
-          Uid: ''
+          Uid: null
         },
         control: {},
         tableData_show: [],
         tableData_log: [],
         channels: [],
         areas: [],
-        lastname: ''
+        lastname: '',
+        url: ''
       }
     },
     
@@ -201,8 +202,23 @@ import axios from '../../http'
         }
       },
 
+      filter2(v) {
+        if(v == '') {
+          return
+        } 
+        for (let i of this.areas) {
+          if (i.ServerName == v) {
+            this.url = 'http://' + i.GmIP
+            console.log(this.url)
+          }
+        }
+      },
+
       search() {
-        axios.post('/findPlayer',this.formInline).then(
+        if(this.url == '') {
+          return
+        }
+        axios.post(this.url + '/findPlayer',this.formInline).then(
           res => {
             if(res.status==200) {
               this.tableData_show.push(res.data.data)
@@ -212,14 +228,16 @@ import axios from '../../http'
       },
 
       submit(time,v) {
-        this.tableData_show[0].SurplusHour = time
-        this.tableData_show[0].StateStr = v 
+        if(this.tableData_show[0]) {
+          this.tableData_show[0].SurplusHour = time
+          this.tableData_show[0].StateStr = v 
 
-        axios.post('/managePlayer',this.tableData_show[0]).then(
-          res => {
-            console.log(res.data)
-          }
-        )
+          axios.post('/managePlayer',this.tableData_show[0]).then(
+            res => {
+              console.log(res.data)
+            }
+          )
+        }
       }
     }
   }
