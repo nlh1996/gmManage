@@ -48,7 +48,6 @@
           </el-form-item>  
         </el-col> 
 
-
         <el-col :span="12">
         <el-form-item label="有效期:">
           <!-- <el-input v-model="form.Date" placeholder="输入" style="width:90%"></el-input> -->
@@ -102,7 +101,7 @@
         <el-table-column label="礼包名" width="135" prop="GiftPackName"></el-table-column>
         <el-table-column label="兑换码" width="180" prop="Code"></el-table-column>
         <el-table-column label="使用情况" width="100" prop="Used">
-          <template slot-scope="scope" v-if="scope.row.Used == false">
+          <template slot-scope="scope">
             <div v-if="scope.row.Used == false">未使用</div>
             <div v-else>已使用</div>
           </template>

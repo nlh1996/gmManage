@@ -189,6 +189,9 @@ import axios from '../../http'
       getEmails() {
         axios.get('/getEmails').then( res=> {
           let data = res.data.data
+          if (data == null) {
+            return
+          }
           for (let i=0; i<data.length; i++) {
             data[i].Email.Time = data[i].Email.Date + ' ' + data[i].Email.Time
             data[i].Email.ID = data[i].ID
@@ -202,17 +205,22 @@ import axios from '../../http'
       },
       filter(v) {
         if(v != '' && v != this.lastname) {
-          this.form.Area = ''
+          this.form.Area = null
           axios.get('/getAreas', {"ChannelName": v})
           .then( res => {
-            if (res.status == 200) {
-              this.areas = res.data.data
-              this.lastname = v
+            if(res) {
+              if (res.status == 200) {
+                this.areas = res.data.data
+                this.lastname = v
+              }
             }
           })
         }
       },
       submit() {
+        if (this.form.ReceiverUid == '') {
+          this.form.ReceiverUid = null
+        }
         axios.post('/sendEmail',this.form)
         .then( res=>{
           if(res.status == 200) {

@@ -108,15 +108,20 @@ import axios from '../../http'
           Items: [{Id: null,Count: null},{Id: null,Count: null},{Id: null,Count: null},{Id: null,Count: null}]
         },
         tableData2: [],
-        goods: []
+        goods: [],
       }
     },
 
-    mounted() {
-      this.getGiftPack() 
+    beforeMount() {
       axios.get('/getItems').then( res => {
         if(res.status == 200) {
           this.goods = res.data.data
+          this.m = new Map()
+          for(let item of this.goods) {
+            this.m.set(item.Id, item.Name)
+          }
+          this.m.set(0, '无')
+          this.getGiftPack()
         }
       })
     },
@@ -131,13 +136,13 @@ import axios from '../../http'
             tableData.GiftPackId = list[i].GiftPackId
             tableData.GiftPackName = list[i].GiftPackName
             tableData.Comment = list[i].Comment
-            tableData.Good1Name = list[i].Items[0].Name
+            tableData.Good1Name = this.m.get(list[i].Items[0].Id)
             tableData.Good1Num = list[i].Items[0].Count
-            tableData.Good2Name = list[i].Items[1].Name
+            tableData.Good2Name = this.m.get(list[i].Items[1].Id)
             tableData.Good2Num = list[i].Items[1].Count
-            tableData.Good3Name = list[i].Items[2].Name
+            tableData.Good3Name = this.m.get(list[i].Items[2].Id)
             tableData.Good3Num = list[i].Items[2].Count
-            tableData.Good4Name = list[i].Items[3].Name
+            tableData.Good4Name = this.m.get(list[i].Items[3].Id)
             tableData.Good4Num = list[i].Items[3].Count
             this.tableData2.push(tableData)
           }
