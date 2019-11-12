@@ -108,6 +108,7 @@
 
 <script>
 import axios from '../../http';
+
   export default {
     data() {
       return {
@@ -207,7 +208,7 @@ import axios from '../../http';
         })
       }
     },        
-}
+  }
 </script>
 
 <style scoped>

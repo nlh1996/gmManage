@@ -67,7 +67,16 @@
           </el-date-picker>
         </el-form-item>  
         </el-col>
-
+        <el-col :span="5">
+          <el-form-item label="全服使用" prop="delivery">
+            <el-switch v-model="form.FullServiceUse"></el-switch>
+          </el-form-item>
+        </el-col>
+        <el-col :span="5">
+          <el-form-item label="无限使用" prop="delivery">
+            <el-switch v-model="form.UnLimitUse"></el-switch>
+          </el-form-item>
+        </el-col>
       </el-form>
 
       <el-col :span="12">
@@ -125,7 +134,9 @@ import XLSX from 'xlsx'
           GiftPackName: '',
           Count: null,
           Start: '',
-          End: ''
+          End: '',
+          FullServiceUse: false,
+          UnLimitUse: false,
         },
         form2: {
           Channel: '',
