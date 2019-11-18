@@ -63,7 +63,12 @@ import axios from '../../http'
       )
     },
     methods: {
- 
+      tableRowClassName() {
+        
+      },
+      handleSelectionChange() {
+        
+      }
     }
   }
 </script>

@@ -159,7 +159,15 @@ import axios from '../../http'
         }
         for(let i = 0; i<this.form.Items.length; i++) {
           for(let j = 0; j<this.goods.length; j++) {
-            if(this.goods[j].Id == this.form.Items[i].Id || this.form.Items[i].Id == null) {
+            if(this.form.Items[i].Id == '' || this.form.Items[i].Count == '') {
+              this.form.Items[i].Id = null
+              this.form.Items[i].Count = null
+            }
+            if(this.form.Items[i].Id == null) {
+              this.form.Items[i].Count = null
+              break
+            }
+            if(this.goods[j].Id == this.form.Items[i].Id) {
               break
             }
             if(j == this.goods.length-1) {

@@ -20,7 +20,7 @@
         </el-col>
         <el-col :span="12">
         <el-form-item label="选择游戏区:">
-          <el-select v-model="form.Area" :change="filter2(form.Area)" placeholder="请选择游戏区" class="select">
+          <el-select v-model="form.Area"  placeholder="请选择游戏区" class="select">
             <el-option
               v-for="item in areas"
               :key="item.Id"
@@ -68,12 +68,12 @@
         </el-form-item>  
         </el-col>
         <el-col :span="5">
-          <el-form-item label="全服使用" prop="delivery">
+          <el-form-item label="全服使用:" prop="delivery">
             <el-switch v-model="form.FullServiceUse"></el-switch>
           </el-form-item>
         </el-col>
         <el-col :span="5">
-          <el-form-item label="无限使用" prop="delivery">
+          <el-form-item label="无限使用:" prop="delivery">
             <el-switch v-model="form.UnLimitUse"></el-switch>
           </el-form-item>
         </el-col>
@@ -115,6 +115,8 @@
             <div v-else>已使用</div>
           </template>
         </el-table-column>
+        <el-table-column label="开始时间" width="100" prop="Start"></el-table-column>
+        <el-table-column label="结束时间" width="100" prop="End"></el-table-column>
       </el-table>
       <el-button style="float:right;" @click="exportExcel">生成excel</el-button>
     </div>
@@ -161,9 +163,25 @@ import XLSX from 'xlsx'
           }
         }
       )
+      axios.get('/getGiftPacks').then( res=> {
+        this.gifts = res.data.data
+      }) 
+      this.getRedeemCodes()
     },
     methods: {
+      getRedeemCodes() {
+        axios.get('/getRedeemCodes').then( res=> {
+          this.tablelist = res.data.data
+        }) 
+      },
       tianjia() {
+        if(this.form.GiftPackName == '' || this.form.Start == '' || this.form.Count == null) {
+          this.$message({
+            message: '请检查填写内容！',
+            type: 'error'
+          })
+          return
+        }
         axios.post('/addRedeemCodes', this.form)
         .then( res => {
           if (res.status == 200) {       
@@ -171,6 +189,7 @@ import XLSX from 'xlsx'
               message: '添加成功！',
               type: 'success'
             })
+            this.getRedeemCodes()
           }
         })
       },
@@ -186,30 +205,21 @@ import XLSX from 'xlsx'
           })
         }
       },
-      filter2(v) {
-        if(v != '' && v != this.lastArea) {
-          axios.get('/getGiftPacks').then( res=> {
-            this.gifts = res.data.data
-            this.lastArea = v
-          }) 
-        }
-      },
       filter3(v) {
         if(v != '' && v != this.lastChannel2) {
           this.form2.Area = ''
+          this.lastChannel2 = v
           axios.get('/getAreas', {"ChannelName": v})
           .then( res => {
             if (res.status == 200) {
               this.areas2 = res.data.data
-              this.lastChannel2 = v
             }
           })
         }
       },
       filter4(v) {
         if(v.Area != '' && v.Area != this.lastArea2) {
-          console.log(v)
-          let data = 'channel='+v.Channel+'&area='+v.Area
+          let data = 'channel='+v.Channel+'&area='+ v.Area
           axios.get('/getRedeemCodes?'+data).then( res=> {
             this.tablelist = res.data.data
             this.lastArea2 = v.Area
@@ -249,7 +259,7 @@ import XLSX from 'xlsx'
 }
 .table{
   margin: 0 auto;
-  width: 620px;
+  width: 700px;
 }
 
 .select{
