@@ -3,8 +3,8 @@
     <div class="head">
       <div class="text">兑换码管理</div>
     </div>
-    <div class="form">
 
+    <div class="form">
       <el-form :model="form" label-position="left" label-width="100px">
         <el-col :span="12">
         <el-form-item label="选择渠道:">

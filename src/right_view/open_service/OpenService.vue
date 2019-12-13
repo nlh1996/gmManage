@@ -90,6 +90,7 @@
         <el-table-column label="Id" width="80" prop="ServerId"></el-table-column>
         <el-table-column label="服务器名称" width="140" prop="ServerName"></el-table-column>
         <el-table-column label="服务器地址" width="180" prop="ServerIP"></el-table-column>
+        <el-table-column label="GM管理地址" width="180" prop="GmIP"></el-table-column>
         <el-table-column label="服务状态" width="100" prop="ServerState"></el-table-column>
         <el-table-column label="服务标签" width="100" prop="ServerTag"></el-table-column>
         <el-table-column label="服务管理" width="100">      
@@ -226,7 +227,7 @@ import axios from '../../http'
 
 .table{
   margin: 0 auto;
-  width: 720px;
+  width: 900px;
 }
 
 .select{

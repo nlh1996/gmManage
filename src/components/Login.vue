@@ -21,7 +21,7 @@
     },
     methods: {
       login() {
-        if(this.name == 'admin' && this.pwd == 'admin') {
+        if(this.name == 'admin' && this.pwd == 'yingHuo2018') {
           this.$emit('loginSucess')
         }
       },

@@ -47,7 +47,7 @@
 
           <el-col :span="8">
             <el-form-item label="发件对象id:">
-              <el-input v-model.number="form.ReceiverUid" placeholder="输入" style="width:90%"></el-input>
+              <el-input v-model="form.ReceiverUid" placeholder="输入" style="width:90%"></el-input>
             </el-form-item>
           </el-col>
 
@@ -156,7 +156,7 @@ import axios from '../../http'
           Title: '',
           Content: '',
           ReceiverName: '',
-          ReceiverUid: null,
+          ReceiverUid: '',
           GiftPackName: '',
           Channel: '',
           Area: '',
@@ -218,9 +218,6 @@ import axios from '../../http'
         }
       },
       submit() {
-        if (this.form.ReceiverUid == '') {
-          this.form.ReceiverUid = null
-        }
         axios.post('/sendEmail',this.form)
         .then( res=>{
           if(res.status == 200) {
