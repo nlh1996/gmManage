@@ -195,10 +195,14 @@ import axios from '../../http';
         }
       },
       updateChannel() {
+        if(this.form1.ChannelName == '') {
+          this.$message.error('无效的修改')
+          return 
+        }
         axios.post('/changeChannel', this.form1).then ( res => {
           if(res.status == 200) {
             this.$message({
-              message: '删除成功！',
+              message: '修改成功！',
               type: 'success'
             });
             this.form1 = {}

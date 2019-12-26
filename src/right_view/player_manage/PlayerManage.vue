@@ -42,7 +42,6 @@
         <el-button type="success" @click="search">搜索</el-button>
       </div>
 
-
       <pre>{{jsondata}}</pre>
     <!--
     <el-row>  
@@ -187,7 +186,6 @@
       </el-table>
     </div>
 
-
     <el-select v-model="tip" placeholder="请选择tip" style="width: 180px;">
       <el-option
         v-for="item in tips"
@@ -265,11 +263,7 @@ import axios from '../../http'
         } 
         for (let i of this.areas) {
           if (i.ServerName == v) {
-            if(this.formInline.Channel == "本地测试") {
-              this.url = 'http://' + i.GmIP
-            }else{
-              this.url = 'https://' + i.GmIP
-            }
+            this.url = 'http://' + i.GmIP
           }
         }
       },
