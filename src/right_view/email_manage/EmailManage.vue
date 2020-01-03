@@ -14,7 +14,7 @@
           </el-col>
           <el-col :span="8">
             <el-form-item label="选择渠道:">
-              <el-select v-model="form.Channel" :change="filter(form.Channel)" style="width:90%">
+              <el-select v-model="form.Channel" @change="filter(form.Channel)" style="width:90%">
                 <el-option
                   v-for="item in channels"
                   :key="item.Id"
@@ -204,7 +204,7 @@ import axios from '../../http'
         }) 
       },
       filter(v) {
-        if(v != '' && v != this.lastname) {
+        if(v != '') {
           this.form.Area = null
           axios.get('/getAreas', {"ChannelName": v})
           .then( res => {

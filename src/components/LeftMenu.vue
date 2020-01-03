@@ -29,14 +29,19 @@
         <!-- <i class="el-icon-setting"></i> -->
         <span slot="title">邮件管理</span>
       </el-menu-item>
-      <el-menu-item index="/codeManage">
-        <!-- <i class="el-icon-setting"></i> -->
-        <span slot="title">兑换码管理</span>
-      </el-menu-item>
-
       <el-menu-item index="/logs">
         <!-- <i class="el-icon-setting"></i> -->
         <span slot="title">日志查看</span>
+      </el-menu-item>
+
+      <el-menu-item index="/count">
+        <!-- <i class="el-icon-setting"></i> -->
+        <span slot="title">每日统计</span>
+      </el-menu-item>
+
+      <el-menu-item index="/codeManage">
+        <!-- <i class="el-icon-setting"></i> -->
+        <span slot="title">兑换码管理</span>
       </el-menu-item>
 
       <el-menu-item index="">

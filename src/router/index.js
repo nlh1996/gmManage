@@ -8,6 +8,7 @@ const giftManage = () => import('@/right_view/gift_manage/GiftManage')
 const emailManage = () => import('@/right_view/email_manage/EmailManage')
 const codeManage = () => import('@/right_view/code_manage/CodeManage')
 const logs = () => import('@/right_view/logs/LogManage')
+const count = () => import('@/right_view/day_count/Count')
 // const dockerCreate = () => import('@/right_view/docker_create/DockerCreate')
 // const dockerStatus = () => import('@/right_view/docker_status/DockerStatus')
 Vue.use(Router)
@@ -53,7 +54,12 @@ export default new Router({
       path: '/logs',
       name: 'logs',
       component: logs
-    }
+    },
+    {
+      path: '/count',
+      name: 'count',
+      component: count
+    },
     // {
     //   path: '/dockerCreate',
     //   name: 'dockerCreate',

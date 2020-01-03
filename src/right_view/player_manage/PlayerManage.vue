@@ -9,7 +9,7 @@
         <el-form :inline="true" :model="formInline" class="demo-form-inline">
 
         <el-form-item label="选择渠道:">
-          <el-select v-model="formInline.Channel" :change="filter(formInline.Channel)" placeholder="请选择渠道" style="width: 140px;">
+          <el-select v-model="formInline.Channel" @change="filter(formInline.Channel)" placeholder="请选择渠道" style="width: 140px;">
             <el-option
               v-for="item in channels"
               :key="item.Id"
@@ -20,7 +20,7 @@
         </el-form-item>
 
         <el-form-item label="选择区服:">
-          <el-select v-model="formInline.Area"  :change="filter2(formInline.Area)" placeholder="请选择游戏区" style="width: 140px;">
+          <el-select v-model="formInline.Area"  @change="filter2(formInline.Area)" placeholder="请选择游戏区" style="width: 140px;">
             <el-option
               v-for="item in areas"
               :key="item.Id"
@@ -43,44 +43,7 @@
       </div>
 
       <pre>{{jsondata}}</pre>
-    <!--
-    <el-row>  
-      <div class="table1">
-        <el-table
-          :data="tableData_show"
-          border
-          height="150"
-          style="width: 100%">
 
-          <el-table-column
-            prop="Channel"
-            label="渠道"
-            width="120">
-          </el-table-column>
-          <el-table-column
-            prop="Area"
-            label="区服"
-            width="120">
-          </el-table-column>
-          <el-table-column
-            prop="NickName"
-            label="玩家昵称"
-            width="150">
-          </el-table-column>
-          <el-table-column
-            prop="Uid"
-            label="玩家id"
-            width="120">
-          </el-table-column>
-          <el-table-column
-            prop="vip"
-            label="vip等级"
-            width="100">
-          </el-table-column>
-        </el-table>
-      </div>
-    </el-row>
-    -->
     <div class="clean"></div>
     <el-row>
       <el-row>
@@ -107,58 +70,10 @@
       </el-col>
     </el-row>
 
-    <!--
-    <el-row>  
-      <div class="table2">
-        <el-table
-          :data="tableData_log"
-          border
-          height="220"
-          style="width: 100%">
-
-          <el-table-column
-            prop="id"
-            label="编号"
-            width="60">
-          </el-table-column>
-          <el-table-column
-            prop="way"
-            label="渠道"
-            width="120">
-          </el-table-column>
-          <el-table-column
-            prop="area"
-            label="区服"
-            width="120">
-          </el-table-column>
-          <el-table-column
-            prop="name"
-            label="玩家昵称"
-            width="150">
-          </el-table-column>
-          <el-table-column
-            prop="control_type"
-            label="操作"
-            width="120">
-          </el-table-column>
-          <el-table-column
-            prop="time"
-            label="时效"
-            width="120">
-          </el-table-column>
-          <el-table-column
-            prop="control_time"
-            label="操作时间"
-            width="240">
-          </el-table-column>
-        </el-table>
-      </div>
-    </el-row> -->
-
     <el-row>
     <div class="text">
       服务列表 
-      <el-select v-model="formInline.Channel" :change="filter(formInline.Channel)" placeholder="请选择渠道" style="width: 140px;">
+      <el-select v-model="formInline.Channel" @change="filter(formInline.Channel)" placeholder="请选择渠道" style="width: 140px;">
         <el-option
           v-for="item in channels"
           :key="item.Id"
@@ -245,7 +160,7 @@ import axios from '../../http'
     },
     methods: {
       filter(v) {
-        if(v != '' && v != this.lastname) {
+        if(v != '') {
           this.formInline.Area = ''
           axios.get('/getAreas', {"ChannelName": v})
           .then( res => {
